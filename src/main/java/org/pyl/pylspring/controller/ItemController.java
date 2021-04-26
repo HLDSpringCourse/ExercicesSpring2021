@@ -1,50 +1,66 @@
 package org.pyl.pylspring.controller;
 
 import org.pyl.pylspring.dto.ItemDTO;
+import org.pyl.pylspring.exception.APIException;
 import org.pyl.pylspring.service.ItemService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 @RequestMapping("/item")
 public class ItemController {
 
-    @Autowired
-    ItemService itemService;
+    private final ItemService itemService;
 
-    @GetMapping(path = "/", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ItemController(ItemService itemService) {
+        this.itemService = itemService;
+    }
+
+    @GetMapping( "/")
     public List<ItemDTO> getAll() {
 
-        return new ArrayList<ItemDTO>();
+        return itemService.getAll();
     }
 
-    @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ItemDTO get(@PathVariable("id") String id) {
+    @GetMapping( "/{id}")
+    public ItemDTO get(@PathVariable("id") String id) throws APIException {
 
-        return new ItemDTO();
+        return itemService.get(id);
     }
 
-    @PostMapping(path = "/", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping( "/")
     public ItemDTO create(@RequestBody ItemDTO itemDTO) {
 
-        return new ItemDTO();
+        return itemService.create(itemDTO);
     }
 
-    @PutMapping(path = "/", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ItemDTO update(@RequestBody ItemDTO itemDTO) {
+    @PutMapping( "/")
+    public ItemDTO update(@RequestBody ItemDTO itemDTO) throws APIException {
 
-        return new ItemDTO();
+        return itemService.update(itemDTO);
     }
 
-    @DeleteMapping(path = "/{id}")
-    public long deleteItem(@PathVariable("id") String id) {
-
-        return 123L;
+    @DeleteMapping( "/{id}")
+    public long delete(@PathVariable("id") String id) throws APIException {
+        return itemService.delete(id);
     }
 
+
+    @ExceptionHandler({APIException.class})
+    public ResponseEntity<ErrorMessage> handleAPIException(APIException e) {
+        return new ResponseEntity<>(new ErrorMessage(e.getMessage()), HttpStatus.BAD_REQUEST);
+    }
+
+    public class ErrorMessage {
+        public String errorMessage;
+
+        public ErrorMessage(String errorMessage) {
+            this.errorMessage = errorMessage;
+        }
+    }
 
 }

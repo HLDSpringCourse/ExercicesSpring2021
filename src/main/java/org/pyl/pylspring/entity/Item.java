@@ -14,4 +14,6 @@ public class Item {
     @Id
     private Long id;
 
+    private String Name;
+
 }
