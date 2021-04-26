@@ -2,11 +2,15 @@ package org.pyl.pylspring.service;
 
 import org.pyl.pylspring.dao.ItemDAO;
 import org.pyl.pylspring.dto.ItemDTO;
+import org.pyl.pylspring.dto.RegionDTO;
 import org.pyl.pylspring.exception.APIException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+import util.Constants;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -21,6 +25,9 @@ public class ItemService {
 
     private final List<ItemDAO> itemDAOList = new ArrayList<>();
 
+    private final RestTemplate restTemplate = new RestTemplate();
+
+
     public ItemService() {
         super();
         itemDAOList.add(new ItemDAO(1L, "toto"));
@@ -29,6 +36,7 @@ public class ItemService {
     }
 
     public List<ItemDTO> getAll() {
+
         return itemDAOList.stream().map(this::daoToDto).collect(Collectors.toList());
     }
 
@@ -74,6 +82,14 @@ public class ItemService {
         itemDAOList.remove(itemDAOOptional.get());
 
         return itemId;
+    }
+
+    public List<RegionDTO> getAllRegions() {
+        return Arrays.asList(restTemplate.getForObject(Constants.API_GOV_BASE_URL+Constants.API_GOV_REGIONS_URL, RegionDTO[].class));
+    }
+
+    public RegionDTO getRegion(String code) {
+        return restTemplate.getForObject(Constants.API_GOV_BASE_URL+Constants.API_GOV_REGIONS_URL+"/"+code, RegionDTO.class);
     }
 
     private ItemDTO daoToDto(ItemDAO itemDAO) {

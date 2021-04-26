@@ -11,6 +11,8 @@ public class ItemDAO {
 
     private String Name;
 
+    private String regionCode;
+
     public ItemDAO() {
     }
 

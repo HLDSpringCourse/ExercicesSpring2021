@@ -13,6 +13,8 @@ public class ItemDTO implements Serializable {
 
     private String Name;
 
+    private String regionCode;
+
     public ItemDTO() {
     }
 
