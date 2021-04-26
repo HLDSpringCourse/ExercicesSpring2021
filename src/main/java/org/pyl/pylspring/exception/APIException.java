@@ -1,8 +1,15 @@
 package org.pyl.pylspring.exception;
 
+import lombok.Getter;
+import org.springframework.http.HttpStatus;
+
+@Getter
 public class APIException extends Exception {
 
-    public APIException(String s) {
-        super(s);
+    private final HttpStatus httpStatus;
+    public APIException(String message, HttpStatus httpStatus) {
+        super(message);
+
+        this.httpStatus = httpStatus;
     }
 }

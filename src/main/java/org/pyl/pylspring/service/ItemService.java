@@ -3,6 +3,7 @@ package org.pyl.pylspring.service;
 import org.pyl.pylspring.dao.ItemDAO;
 import org.pyl.pylspring.dto.ItemDTO;
 import org.pyl.pylspring.exception.APIException;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -37,7 +38,7 @@ public class ItemService {
 
         Optional<ItemDAO> itemDAOOptional = itemDAOList.stream().filter(itemDAO -> itemDAO.getId() == itemId).findFirst();
 
-        if(itemDAOOptional.isEmpty()) throw new APIException(MESSAGE_NOT_FOUND);
+        if(itemDAOOptional.isEmpty()) throw new APIException(MESSAGE_NOT_FOUND, HttpStatus.NOT_FOUND);
         return daoToDto(itemDAOOptional.get());
     }
 
@@ -56,7 +57,7 @@ public class ItemService {
 
 
         Optional<ItemDAO> itemDAOOptional = itemDAOList.stream().filter(itemDAO -> itemDAO.getId() == itemId).findFirst();
-        if(itemDAOOptional.isEmpty()) throw new APIException(MESSAGE_NOT_FOUND);
+        if(itemDAOOptional.isEmpty()) throw new APIException(MESSAGE_NOT_FOUND, HttpStatus.NOT_FOUND);
 
         int itemIndex = itemDAOList.indexOf(itemDAOOptional.get());
 
@@ -68,7 +69,7 @@ public class ItemService {
     public Long delete(String id) throws APIException {
         final long itemId = Long.parseLong(id);
         Optional<ItemDAO> itemDAOOptional = itemDAOList.stream().filter(itemDAO -> itemDAO.getId() == itemId).findFirst();
-        if(itemDAOOptional.isEmpty()) throw new APIException(MESSAGE_NOT_FOUND);
+        if(itemDAOOptional.isEmpty()) throw new APIException(MESSAGE_NOT_FOUND, HttpStatus.NOT_FOUND);
 
         itemDAOList.remove(itemDAOOptional.get());
 

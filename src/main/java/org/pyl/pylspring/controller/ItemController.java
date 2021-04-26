@@ -52,7 +52,7 @@ public class ItemController {
 
     @ExceptionHandler({APIException.class})
     public ResponseEntity<ErrorMessage> handleAPIException(APIException e) {
-        return new ResponseEntity<>(new ErrorMessage(e.getMessage()), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(new ErrorMessage(e.getMessage()), e.getHttpStatus());
     }
 
     public class ErrorMessage {
