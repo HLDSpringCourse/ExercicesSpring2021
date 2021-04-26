@@ -39,4 +39,9 @@ public class OrderService {
     public List<Order> findOrdersByName(String name) {
         return orders.stream().filter(order -> order.getName().toLowerCase(Locale.ROOT).contains(name.toLowerCase(Locale.ROOT))).collect(Collectors.toList());
     }
+
+    public void updateOrder(Order order) {
+        Order originalOrder = findOrderById(order.getId());
+        orders.set(orders.indexOf(originalOrder), order);
+    }
 }

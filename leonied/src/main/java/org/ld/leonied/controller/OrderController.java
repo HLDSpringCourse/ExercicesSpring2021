@@ -26,17 +26,25 @@ public class OrderController {
         return ResponseEntity.status(HttpStatus.OK).body(orders);
     }
 
-    @PostMapping(path = "/edit")
+    @PostMapping(path = "/new")
+    public ResponseEntity<Order> createOrder(@RequestBody Order order) {
+        if(order != null) {
+            orderService.addOrder(order);
+            return ResponseEntity.status(HttpStatus.OK).body(order);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+    }
+
+    @PutMapping(path = "/edit")
     public ResponseEntity<Order> editOrder(@RequestBody Order order) {
         if(order != null) {
-            if(order.getId() == 0) {
-                orderService.addOrder(order);
-            } else if(orderService.findOrderById(order.getId()) != null) {
-                orderService.findOrderById(order.getId()).setName(order.getName());
+            if(orderService.findOrderById(order.getId()) != null) {
+                orderService.updateOrder(order);
+                return ResponseEntity.status(HttpStatus.OK).body(order);
             } else {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
             }
-            return ResponseEntity.status(HttpStatus.OK).body(order);
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }

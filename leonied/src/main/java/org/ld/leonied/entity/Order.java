@@ -3,10 +3,11 @@ package org.ld.leonied.entity;
 public class Order {
     private int id;
     private String name;
+    private String city;
 
     public Order() {}
 
-    public Order(String name) {
+    public Order(String name, String city) {
         this.name = name;
     }
 
@@ -24,5 +25,13 @@ public class Order {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
     }
 }
