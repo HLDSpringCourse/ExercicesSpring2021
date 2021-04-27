@@ -20,7 +20,7 @@ public class ItemController {
         this.itemService = itemService;
     }
 
-    @GetMapping( "/")
+    @GetMapping
     public List<ItemDTO> getAll() {
 
         return itemService.getAll();
@@ -32,13 +32,13 @@ public class ItemController {
         return itemService.get(id);
     }
 
-    @PostMapping( "/")
+    @PostMapping
     public ItemDTO create(@RequestBody ItemDTO itemDTO) {
 
         return itemService.create(itemDTO);
     }
 
-    @PutMapping( "/")
+    @PutMapping
     public ItemDTO update(@RequestBody ItemDTO itemDTO) throws APIException {
 
         return itemService.update(itemDTO);

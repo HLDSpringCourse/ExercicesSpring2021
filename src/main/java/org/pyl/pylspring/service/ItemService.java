@@ -44,6 +44,8 @@ public class ItemService {
 
         final long itemId = Long.parseLong(id);
 
+
+
         Optional<ItemDAO> itemDAOOptional = itemDAOList.stream().filter(itemDAO -> itemDAO.getId() == itemId).findFirst();
 
         if(itemDAOOptional.isEmpty()) throw new APIException(MESSAGE_NOT_FOUND, HttpStatus.NOT_FOUND);
