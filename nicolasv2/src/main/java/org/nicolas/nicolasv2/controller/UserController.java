@@ -33,10 +33,10 @@ public class UserController {
     public ResponseEntity<List<User>> listUsers() {
         HttpStatus status = HttpStatus.NOT_FOUND;
 
-        List<User> orders = userService.getUsers();
+        List<User> users = userService.getUsers();
 
 
-        return ResponseEntity.status(HttpStatus.OK).body(orders);
+        return ResponseEntity.status(HttpStatus.OK).body(users);
     }
 /*    @GetMapping("/list")
     public List<User> getUsers(){

@@ -22,7 +22,7 @@ public class UserService {
         return users.stream().filter(user -> user.getId() == id).findFirst().orElse(null);
     }
 
-    public boolean setOrder(User user) {
+    public boolean setUser(User user) {
         boolean retour = false;
 
         User userRetour = getUserById(user.getId());
