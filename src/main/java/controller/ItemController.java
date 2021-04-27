@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
+
 import org.lfc.entity.Item;
 import org.lfc.service.ItemService;
 
@@ -25,6 +27,12 @@ public class ItemController {
 	public ResponseEntity<Item> postItem(@PathVariable String name)
 	{
 		return ResponseEntity.status(HttpStatus.OK).body(itemService.add(name));
+	}
+
+	@GetMapping
+	public ResponseEntity<ArrayList<Item>> getAllItems()
+	{
+		return ResponseEntity.status(HttpStatus.OK).body(itemService.getAll());
 	}
 
     @GetMapping(path = "/get/{id}", produces = MediaType.APPLICATION_JSON_VALUE)

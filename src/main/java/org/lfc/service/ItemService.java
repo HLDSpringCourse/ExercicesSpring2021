@@ -58,4 +58,9 @@ public class ItemService {
 		}
 		return null;
 	}
+
+	public ArrayList<Item> getAll()
+	{
+		return itemList;
+	}
 }
