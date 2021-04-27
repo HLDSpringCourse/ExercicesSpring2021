@@ -1,5 +1,6 @@
 package org.pyl.pylspring.dto;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,16 +12,20 @@ public class ItemDTO implements Serializable {
 
     private Long id;
 
-    private String Name;
+    private String name;
 
     private String regionCode;
+
+    private String regionName;
 
     public ItemDTO() {
         super();
     }
 
-    public ItemDTO(Long id, String name) {
+    public ItemDTO(Long id, String name, String regionCode, String regionName) {
         this.id = id;
-        Name = name;
+        this.name = name;
+        this.regionCode = regionCode;
+        this.regionName = regionName;
     }
 }

@@ -14,17 +14,21 @@ public class Item {
     @Id
     private Long id;
 
-    private String Name;
+    private String name;
 
     private String regionCode;
+
+    private String regionName;
 
     public Item() {
         super();
     }
 
-    public Item(Long id, String name) {
+    public Item(Long id, String name, String regionCode, String regionName) {
         this.id = id;
-        Name = name;
+        this.name = name;
+        this.regionCode = regionCode;
+        this.regionName = regionName;
     }
 
 }

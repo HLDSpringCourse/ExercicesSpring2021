@@ -32,7 +32,7 @@ public class ItemControllerTest {
     @Test
     @Order(1)
     public void getItemsTest() throws Exception {
-        this.mockMvc.perform(get("/item")
+        this.mockMvc.perform(get("/items")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content()
@@ -43,7 +43,7 @@ public class ItemControllerTest {
     @Test
     @Order(2)
     public void getItemTotoTest() throws Exception {
-        this.mockMvc.perform(get("/item/2")
+        this.mockMvc.perform(get("/items/2")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content()
@@ -55,40 +55,42 @@ public class ItemControllerTest {
     @Test
     @Order(3)
     public void createPloufItemTest() throws Exception {
-        this.mockMvc.perform(post("/item")
-                .content(asJsonString(new ItemDTO(0L, "plouf")))
+        this.mockMvc.perform(post("/items")
+                .content(asJsonString(new ItemDTO(0L, "plouf", "44", "")))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content()
                         .contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.name", is("plouf")))
-                .andExpect(jsonPath("$.id", is(4)));
+                .andExpect(jsonPath("$.id", is(4)))
+                .andExpect(jsonPath("$.regionName", is("Grand Est")));
     }
 
     @Test
     @Order(4)
     public void updateTitiItemTest() throws Exception {
-        this.mockMvc.perform(put("/item")
-                .content(asJsonString(new ItemDTO(2L, "plop")))
+        this.mockMvc.perform(put("/items")
+                .content(asJsonString(new ItemDTO(2L, "plop", "44", "")))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content()
                         .contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.name", is("plop")))
-                .andExpect(jsonPath("$.id", is(2)));
+                .andExpect(jsonPath("$.id", is(2)))
+                .andExpect(jsonPath("$.regionName", is("Grand Est")));
     }
 
     @Test
     @Order(5)
     public void deleteItemId2Test() throws Exception {
-        this.mockMvc.perform(delete("/item/2")
+        this.mockMvc.perform(delete("/items/2")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content()
                         .contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$", is(2)));
 
-        this.mockMvc.perform(get("/item/2")
+        this.mockMvc.perform(get("/items/2")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().is4xxClientError());
     }
