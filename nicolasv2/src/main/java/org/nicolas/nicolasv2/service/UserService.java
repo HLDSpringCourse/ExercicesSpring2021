@@ -34,13 +34,6 @@ public class UserService {
         return retour;
     }
 
-
-
-
-
-
-
-
     public  List<User> getUsers() {
         return users;
     }

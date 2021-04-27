@@ -34,9 +34,12 @@ public class UserController {
         HttpStatus status = HttpStatus.NOT_FOUND;
 
         List<User> users = userService.getUsers();
+        users.add(new User(18,"Pedro"));
+        users.add(new User(22, "Jean Castex"));
+        users.add(new User(38,"Roselyne Bachelot"));
+        users.add(new User(26, "Olivier véran"));
 
-
-        return ResponseEntity.status(HttpStatus.OK).body(users);
+        return ResponseEntity.status(HttpStatus.OK).body(userService.getUsers());
     }
 /*    @GetMapping("/list")
     public List<User> getUsers(){

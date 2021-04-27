@@ -1,20 +1,28 @@
 package org.nicolas.nicolasv2.controller;
 
 
-import org.junit.runner.RunWith;
-import org.nicolas.nicolasv2.Nicolasv2Application;
 import org.nicolas.nicolasv2.entity.User;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-/*@RunWith(SpringRunner.class)
-@SpringBootTest()
-@AutoConfigureMockMvc
-@TestPropertySource(
-        locations = "classpath:application-integrationtest.properties")*/
+@RestController
+@RequestMapping("/test")
 public class UserTestController {
 
+
+    @GetMapping("/username/{UserName}")
+    public String getTest(@PathVariable("UserName") String UserName) {
+        return UserName;
+    }
+
+/*    @GetMapping("/username/{UserName}")
+    public String getTest(@RequestBody String UserName) {
+        return UserName;
+    }*/
+
+    @GetMapping("/user/{id}")
+    public int getTest(@PathVariable("id") int id) {
+        return id;
+    }
 
 }
