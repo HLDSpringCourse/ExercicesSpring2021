@@ -9,6 +9,7 @@ public class Order {
 
     public Order(String name, String city) {
         this.name = name;
+        this.city = city;
     }
 
     public int getId() {

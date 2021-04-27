@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/order")
+@RequestMapping("/orders")
 public class OrderController {
     private final OrderService orderService;
 
@@ -20,13 +20,13 @@ public class OrderController {
         this.orderService = orderService;
     }
 
-    @GetMapping(path = "/list")
+    @GetMapping
     public ResponseEntity<List<Order>> getOrders() {
         List<Order> orders = orderService.getOrders();
         return ResponseEntity.status(HttpStatus.OK).body(orders);
     }
 
-    @PostMapping(path = "/new")
+    @PostMapping
     public ResponseEntity<Order> createOrder(@RequestBody Order order) {
         if(order != null) {
             orderService.addOrder(order);
@@ -36,7 +36,7 @@ public class OrderController {
         }
     }
 
-    @PutMapping(path = "/edit")
+    @PutMapping
     public ResponseEntity<Order> editOrder(@RequestBody Order order) {
         if(order != null) {
             if(orderService.findOrderById(order.getId()) != null) {
@@ -61,8 +61,8 @@ public class OrderController {
     }
 
     @RequestMapping()
-    public ResponseEntity<List<Order>> searchOrders(@RequestParam(required = false) String name) {
-        List<Order> orders = orderService.findOrdersByName(name);
+    public ResponseEntity<List<Order>> searchOrders(@RequestParam(required = false) String name, @RequestParam(required = false) String city) {
+        List<Order> orders = orderService.findOrdersByParam(name, city);
         return ResponseEntity.status(HttpStatus.OK).body(orders);
     }
 
