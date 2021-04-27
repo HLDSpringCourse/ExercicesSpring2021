@@ -1,5 +1,6 @@
 package org.ld.leonied.service;
 
+import org.ld.leonied.NotFoundException;
 import org.ld.leonied.entity.Order;
 //import org.ld.leonied.entity.Search;
 import org.ld.leonied.entity.Search;
@@ -32,9 +33,11 @@ public class OrderService {
         return orders;
     }
 
-    public Order findOrderById(int id) {
-        List<Order> resultat = orders.stream().filter(order -> order.getId() == id).collect(Collectors.toList());
-        return resultat.size() > 0 ? resultat.get(0) : null;
+    public Order findOrderById(int id) throws NotFoundException {
+        return orders.stream()
+                .filter(order -> order.getId() == id)
+                .findFirst()
+                .orElseThrow(() -> new NotFoundException("La commande d'id " + id + " n'a pas été trouvée"));
     }
 
     public List<Order> findOrdersByParam(String name, String cityName) {
@@ -51,6 +54,11 @@ public class OrderService {
 
     public void updateOrder(Order order) {
         Order originalOrder = findOrderById(order.getId());
-        orders.set(orders.indexOf(originalOrder), order);
+        if(order.getName() != null) {
+            originalOrder.setName(order.getName());
+        }
+        if(order.getCity() != null) {
+            originalOrder.setCity(order.getCity());
+        }
     }
 }

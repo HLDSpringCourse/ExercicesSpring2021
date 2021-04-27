@@ -1,11 +1,9 @@
 package org.ld.leonied.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import org.ld.leonied.NotFoundException;
 import org.ld.leonied.entity.Order;
 import org.ld.leonied.service.OrderService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,48 +30,36 @@ public class OrderController {
             orderService.addOrder(order);
             return ResponseEntity.status(HttpStatus.OK).body(order);
         } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
     }
 
     @PutMapping
-    public ResponseEntity<Order> editOrder(@RequestBody Order order) {
+    public ResponseEntity<Order> editOrder(@RequestBody Order order) throws NotFoundException {
         if(order != null) {
-            if(orderService.findOrderById(order.getId()) != null) {
-                orderService.updateOrder(order);
-                return ResponseEntity.status(HttpStatus.OK).body(order);
-            } else {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-            }
+            Order originalOrder = orderService.findOrderById(order.getId());
+            orderService.updateOrder(order);
+            return ResponseEntity.status(HttpStatus.OK).body(originalOrder);
         } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
     }
 
     @GetMapping(path = "/{id}")
-    public ResponseEntity<Order> getOrder(@PathVariable int id) {
-        Order order = orderService.findOrderById(id);
-        if(order != null) {
-            return ResponseEntity.status(HttpStatus.OK).body(order);
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-        }
+    public Order getOrder(@PathVariable int id) throws NotFoundException {
+        return orderService.findOrderById(id);
     }
 
-    @RequestMapping()
+    @RequestMapping("/search")
     public ResponseEntity<List<Order>> searchOrders(@RequestParam(required = false) String name, @RequestParam(required = false) String city) {
         List<Order> orders = orderService.findOrdersByParam(name, city);
         return ResponseEntity.status(HttpStatus.OK).body(orders);
     }
 
     @DeleteMapping(path = "/{id}")
-    public ResponseEntity<String> deleteOrder(@PathVariable int id) {
+    public ResponseEntity<String> deleteOrder(@PathVariable int id) throws NotFoundException {
         Order order = orderService.findOrderById(id);
-        if(order != null) {
-            orderService.removeOrder(order);
-            return ResponseEntity.status(HttpStatus.OK).body("La commande a bien été supprimée");
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("La commande demandée n'existe pas");
-        }
+        orderService.removeOrder(order);
+        return ResponseEntity.status(HttpStatus.OK).body("La commande a bien été supprimée");
     }
 }

@@ -1,4 +1,5 @@
 package org.ld.leonied.entity;
+import org.ld.leonied.NotFoundException;
 import org.ld.leonied.service.OrderService;
 
 import java.util.List;
