@@ -1,5 +1,6 @@
 package org.nicolas.nicolasv2.controller;
 
+import org.nicolas.nicolasv2.NotFoundException;
 import org.nicolas.nicolasv2.entity.User;
 import org.nicolas.nicolasv2.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,76 +14,33 @@ import java.util.List;
 @RequestMapping("/user")
 public class UserController {
 
+
     @Autowired
     private UserService userService;
 
-
     @PostMapping
-    public ResponseEntity<User> addUser(@RequestBody String UserName) {
-
-        User user = userService.addUser(UserName);
-
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(user);
-
-
-    }
-
-
-    @GetMapping("/list")
-    public ResponseEntity<List<User>> listUsers() {
-        HttpStatus status = HttpStatus.NOT_FOUND;
-
-        List<User> users = userService.getUsers();
-        users.add(new User(18,"Pedro"));
-        users.add(new User(22, "Jean Castex"));
-        users.add(new User(38,"Roselyne Bachelot"));
-        users.add(new User(26, "Olivier véran"));
-
-        return ResponseEntity.status(HttpStatus.OK).body(userService.getUsers());
-    }
-/*    @GetMapping("/list")
-    public List<User> getUsers(){
-        List<User> list = new ArrayList<User>();
-
-        list.add(new User(18,"Pedro"));
-        list.add(new User(26, "Jean Castex"));
-        list.add(new User(18,"Roselyne Bachelot"));
-        list.add(new User(26, "Olivier véran"));
-        return list;
-
-        //return ResponseEntity.status(HttpStatus.OK).body(user);
-    }*/
-
-    @GetMapping("/{id}")
-    public ResponseEntity<User> getUser(@PathVariable("id") int id) {
-
-        User user = userService.getUserById(id);
-
-
-        return ResponseEntity.status(HttpStatus.OK).body(user);
-        //return ResponseEntity.status(HttpStatus.OK).body(user);
-    }
-
-    @PutMapping
-    public ResponseEntity<User> updateUser(@RequestBody User user) {
-
-/*
-        return user;
-*/
-
-        return ResponseEntity.status(HttpStatus.OK).body(user);
+    public User addUser(@RequestBody User user) {
+        return userService.addUser(user);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Integer> deleteUser(@PathVariable("id") int id) {
+    public long deleteUser(@PathVariable("id") String id) {
+        return userService.deleteUser(id);
+    }
 
+    @GetMapping("/{id}")
+    public User getUser(@PathVariable("id") String id) throws NotFoundException {
+        return userService.getUser(id);
+    }
 
-/*
-            return id;
-*/
-            return ResponseEntity.status(HttpStatus.OK).body(id);
+    @GetMapping
+    public List<User> getUsers() {
+        return userService.getUsers();
+    }
 
+    @PutMapping
+    public User updateUser(@RequestBody User user) throws NotFoundException {
+        return userService.updateUser(user);
     }
 
 }

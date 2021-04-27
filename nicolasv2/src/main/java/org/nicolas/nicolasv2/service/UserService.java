@@ -1,50 +1,60 @@
 package org.nicolas.nicolasv2.service;
 
+import org.nicolas.nicolasv2.NotFoundException;
 import org.nicolas.nicolasv2.entity.User;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 
 @Service
 public class UserService {
 
-    List<User> users = new ArrayList<>();
+    private final List<User> users = new ArrayList<>();
 
-    public  User addUser(String UserName) {
-        User user = new User(users.size(), UserName);
+/*    public User addUser(String name) {
+        final User user = new User(name);
+        users.add(user);
+        return user;
+    }*/
+
+    public User addUser(User user) {
+        user.setCity(findCity(user.getZipCode()));
         users.add(user);
         return user;
     }
 
-    public  User getUserById(int id) {
-        return users.stream().filter(user -> user.getId() == id).findFirst().orElse(null);
+    public long deleteUser(String id) {
+        final long found = users.stream().filter(s -> Objects.equals(s.getId(), id)).count();
+        users.removeIf(s -> Objects.equals(s.getId(), id));
+        return found;
     }
 
-    public boolean setUser(User user) {
-        boolean retour = false;
-
-        User userRetour = getUserById(user.getId());
-        if (userRetour != null) {
-            userRetour.setName(user.getName());
-            retour = true;
-        }
-
-        return retour;
+    public User getUser(String id) throws NotFoundException {
+        return users.stream()
+                .filter(s -> Objects.equals(s.getId(), id))
+                .findAny()
+                .orElseThrow(() -> new NotFoundException("L'objet n'existe pas"));
     }
 
-    public  List<User> getUsers() {
+    public List<User> getUsers() {
         return users;
     }
 
-    public boolean deleteUserById(int id) {
-        return users.remove(getUserById(id));
-    }
-
-
-    public User getUserByName(String name) {
-        return users.stream().filter(user -> user.getName().equals(name)).findFirst().orElse(null);
+    public User updateUser(User user) throws NotFoundException {
+        final Optional<User> found = users.stream().filter(s -> Objects.equals(s.getId(), user.getId())).findAny();
+        if (found.isEmpty()) {
+            throw new NotFoundException("L'objet n'existe pas");
+        } else {
+            final User foundUser = found.get();
+            users.remove(foundUser);
+            foundUser.setName(user.getName());
+            users.add(foundUser);
+            return foundUser;
+        }
     }
 
 }

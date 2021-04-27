@@ -2,19 +2,41 @@ package org.nicolas.nicolasv2.entity;
 
 
 import javax.persistence.Entity;
+import javax.persistence.Id;
 
-
+@Entity
 public class User {
 
-
+    @Id
     private int id;
+
     private String name;
+    private String zipCode;
+    private String city;
 
-    public User() {}
 
-    public User(int id, String name) {
-        this.id = id;
+
+    public String getZipCode() {
+        return zipCode;
+    }
+
+    public void setZipCode(String zipCode) {
+        this.zipCode = zipCode;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+
+    public User(String name, String zipCode, String city) {
         this.name = name;
+        this.zipCode = zipCode;
+        this.city = city;
     }
 
     public int getId() {
@@ -31,6 +53,14 @@ public class User {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return id == user.id;
     }
 
 
