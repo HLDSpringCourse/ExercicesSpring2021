@@ -11,20 +11,22 @@ public class Search {
     // optional
     private final String name;
     private final String cityName;
-    /*private final String cityLat;
-    private final String cityLong;*/
+    private final int cityLat;
+    private final int cityLong;
 
     private Search(SearchBuilder builder) {
         name = builder.name;
         cityName = builder.cityName;
-        /*cityLat = builder.cityLat;
-        cityLong = builder.cityLong;*/
+        cityLat = builder.cityLat;
+        cityLong = builder.cityLong;
     }
 
     public List<Order> result(List<Order> orders) {
         return orders.stream()
                 .filter(predicateName()
                         .and(predicateCityName())
+                        .and(predicateCityLat())
+                        .and(predicateCityLong())
                 )
                 .collect(Collectors.toList());
     }
@@ -37,18 +39,28 @@ public class Search {
         return order -> order.getCity() != null && order.getCity().toLowerCase(Locale.ROOT).contains(cityName.toLowerCase(Locale.ROOT));
     }
 
+    public Predicate<Order> predicateCityLat() {
+        return order -> cityLat != 9999 && order.getLattitude() == cityLat;
+    }
+
+    public Predicate<Order> predicateCityLong() {
+        return order -> cityLong != 9999 && order.getLattitude() == cityLong;
+    }
+
     // Builder Class
     public static class SearchBuilder {
         // optional
         private String name;
         private String cityName;
-        /*private String cityLat;
-        private String cityLong;*/
+        private int cityLat;
+        private int cityLong;
 
 
         public SearchBuilder() {
             name = "";
             cityName = "";
+            cityLat = 9999; // non existing lattitude
+            cityLong = 9999; // non existing longitude
         }
 
         /**
@@ -66,6 +78,24 @@ public class Search {
          */
         public SearchBuilder cityName(String cityName) {
             this.cityName = cityName;
+            return this;
+        }
+
+        /**
+         * @param cityLat
+         * @return lui-même
+         */
+        public SearchBuilder cityLat(int cityLat) {
+            this.cityLat = cityLat;
+            return this;
+        }
+
+        /**
+         * @param cityLong
+         * @return lui-même
+         */
+        public SearchBuilder cityLong(int cityLong) {
+            this.cityLong = cityLong;
             return this;
         }
 

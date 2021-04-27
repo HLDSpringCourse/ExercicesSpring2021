@@ -51,8 +51,8 @@ public class OrderController {
     }
 
     @RequestMapping("/search")
-    public ResponseEntity<List<Order>> searchOrders(@RequestParam(required = false) String name, @RequestParam(required = false) String city) {
-        List<Order> orders = orderService.findOrdersByParam(name, city);
+    public ResponseEntity<List<Order>> searchOrders(@RequestParam(required = false) String name, @RequestParam(required = false) String city, @RequestParam(required = false) int lattitude, @RequestParam(required = false) int longitude) {
+        List<Order> orders = orderService.findOrdersByParam(name, city, lattitude, longitude); // TODO à tester
         return ResponseEntity.status(HttpStatus.OK).body(orders);
     }
 

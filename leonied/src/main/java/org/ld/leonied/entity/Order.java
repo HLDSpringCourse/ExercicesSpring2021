@@ -4,8 +4,14 @@ public class Order {
     private int id;
     private String name;
     private String city;
+    private int lattitude = 9999;
+    private int longitude = 9999;
 
     public Order() {}
+
+    public Order(String name) {
+        this.name = name;
+    }
 
     public Order(String name, String city) {
         this.name = name;
@@ -34,5 +40,21 @@ public class Order {
 
     public void setCity(String city) {
         this.city = city;
+    }
+
+    public int getLattitude() {
+        return lattitude;
+    }
+
+    public void setLattitude(int lattitude) {
+        this.lattitude = lattitude;
+    }
+
+    public int getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(int longitude) {
+        this.longitude = longitude;
     }
 }
