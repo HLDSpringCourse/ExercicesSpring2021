@@ -16,6 +16,7 @@ public class ItemDTO implements Serializable {
     private String regionCode;
 
     public ItemDTO() {
+        super();
     }
 
     public ItemDTO(Long id, String name) {

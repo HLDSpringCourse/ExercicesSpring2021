@@ -18,4 +18,13 @@ public class Item {
 
     private String regionCode;
 
+    public Item() {
+        super();
+    }
+
+    public Item(Long id, String name) {
+        this.id = id;
+        Name = name;
+    }
+
 }

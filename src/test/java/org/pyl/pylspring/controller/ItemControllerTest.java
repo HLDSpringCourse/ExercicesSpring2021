@@ -29,10 +29,6 @@ public class ItemControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @Autowired
-    ObjectMapper objectMapper;
-
-
     @Test
     @Order(1)
     public void getItemsTest() throws Exception {

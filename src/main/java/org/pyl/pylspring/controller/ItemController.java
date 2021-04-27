@@ -3,8 +3,6 @@ package org.pyl.pylspring.controller;
 import org.pyl.pylspring.dto.ItemDTO;
 import org.pyl.pylspring.exception.APIException;
 import org.pyl.pylspring.service.ItemService;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,7 +31,7 @@ public class ItemController {
     }
 
     @PostMapping
-    public ItemDTO create(@RequestBody ItemDTO itemDTO) {
+    public ItemDTO create(@RequestBody ItemDTO itemDTO) throws APIException {
 
         return itemService.create(itemDTO);
     }

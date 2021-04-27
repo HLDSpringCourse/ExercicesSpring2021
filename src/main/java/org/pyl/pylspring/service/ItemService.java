@@ -1,8 +1,8 @@
 package org.pyl.pylspring.service;
 
-import org.pyl.pylspring.dao.ItemDAO;
 import org.pyl.pylspring.dto.ItemDTO;
 import org.pyl.pylspring.dto.RegionDTO;
+import org.pyl.pylspring.entity.Item;
 import org.pyl.pylspring.exception.APIException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -12,7 +12,6 @@ import util.Constants;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -23,67 +22,61 @@ public class ItemService {
     private static final String MESSAGE_NOT_FOUND = "Item non trouvée";
     private static final String MESSAGE_BAD_ITEM = "Item non conforme";
 
-    private final List<ItemDAO> itemDAOList = new ArrayList<>();
+    private final List<Item> itemList = new ArrayList<>();
 
     private final RestTemplate restTemplate = new RestTemplate();
 
 
     public ItemService() {
         super();
-        itemDAOList.add(new ItemDAO(1L, "toto"));
-        itemDAOList.add(new ItemDAO(2L, "titi"));
-        itemDAOList.add(new ItemDAO(3L, "tutu"));
+        itemList.add(new Item(1L, "toto"));
+        itemList.add(new Item(2L, "titi"));
+        itemList.add(new Item(3L, "tutu"));
     }
 
     public List<ItemDTO> getAll() {
 
-        return itemDAOList.stream().map(this::daoToDto).collect(Collectors.toList());
+        return itemList.stream().map(this::entityToDto).collect(Collectors.toList());
     }
 
     public ItemDTO get(String id) throws APIException {
-
-        final long itemId = Long.parseLong(id);
-
-
-
-        Optional<ItemDAO> itemDAOOptional = itemDAOList.stream().filter(itemDAO -> itemDAO.getId() == itemId).findFirst();
-
-        if(itemDAOOptional.isEmpty()) throw new APIException(MESSAGE_NOT_FOUND, HttpStatus.NOT_FOUND);
-        return daoToDto(itemDAOOptional.get());
+        return entityToDto(getItem(id));
     }
 
-    public ItemDTO create(ItemDTO itemDTO) {
-        // check item here
-        ItemDAO itemDAO = dtoToDao(itemDTO);
+    public ItemDTO create(ItemDTO itemDTO) throws APIException {
+        if(!isItemDTOValid(itemDTO)) throw new APIException(MESSAGE_BAD_ITEM, HttpStatus.BAD_REQUEST);
+
+        final Item item = dtoToEntity(itemDTO);
         currentId++;
-        itemDAO.setId(currentId);
-        itemDAOList.add(itemDAO);
-        return daoToDto(itemDAO);
+        item.setId(currentId);
+        itemList.add(item);
+        return entityToDto(item);
     }
 
     public ItemDTO update(ItemDTO itemDTO) throws APIException {
-        // dto check here
+
+        if(!isItemDTOValid(itemDTO)) throw new APIException(MESSAGE_BAD_ITEM, HttpStatus.BAD_REQUEST);
+
         final long itemId = itemDTO.getId();
 
+        final Item item = itemList.stream().filter(aItem -> aItem.getId() == itemId).findFirst().orElseThrow(
+                () -> new APIException(MESSAGE_NOT_FOUND, HttpStatus.NOT_FOUND)
+        );
 
-        Optional<ItemDAO> itemDAOOptional = itemDAOList.stream().filter(itemDAO -> itemDAO.getId() == itemId).findFirst();
-        if(itemDAOOptional.isEmpty()) throw new APIException(MESSAGE_NOT_FOUND, HttpStatus.NOT_FOUND);
+        int itemIndex = itemList.indexOf(item);
 
-        int itemIndex = itemDAOList.indexOf(itemDAOOptional.get());
-
-        itemDAOList.set(itemIndex, dtoToDao(itemDTO));
-        return daoToDto(itemDAOList.get(itemIndex));
+        itemList.set(itemIndex, dtoToEntity(itemDTO));
+        return entityToDto(itemList.get(itemIndex));
     }
 
 
     public Long delete(String id) throws APIException {
-        final long itemId = Long.parseLong(id);
-        Optional<ItemDAO> itemDAOOptional = itemDAOList.stream().filter(itemDAO -> itemDAO.getId() == itemId).findFirst();
-        if(itemDAOOptional.isEmpty()) throw new APIException(MESSAGE_NOT_FOUND, HttpStatus.NOT_FOUND);
 
-        itemDAOList.remove(itemDAOOptional.get());
+        final Item item = getItem(id);
 
-        return itemId;
+        itemList.remove(item);
+
+        return item.getId();
     }
 
     public List<RegionDTO> getAllRegions() {
@@ -94,11 +87,33 @@ public class ItemService {
         return restTemplate.getForObject(Constants.API_GOV_BASE_URL+Constants.API_GOV_REGIONS_URL+"/"+code, RegionDTO.class);
     }
 
-    private ItemDTO daoToDto(ItemDAO itemDAO) {
-        return new ItemDTO(itemDAO.getId(), itemDAO.getName());
+    private ItemDTO entityToDto(Item item) {
+        return new ItemDTO(item.getId(), item.getName());
     }
 
-    private ItemDAO dtoToDao(ItemDTO itemDTO) {
-        return new ItemDAO(itemDTO.getId(), itemDTO.getName());
+    private Item dtoToEntity(ItemDTO itemDTO) {
+        return new Item(itemDTO.getId(), itemDTO.getName());
+    }
+
+
+    private boolean isItemDTOValid(ItemDTO itemDTO) {
+        return itemDTO != null
+                && itemDTO.getName() != null
+                && !itemDTO.getName().isEmpty();
+    }
+
+    private Item getItem(String id) throws APIException {
+        long itemId;
+
+        try {
+            itemId = Long.parseLong(id);
+
+        } catch(NumberFormatException e) {
+            throw new APIException(MESSAGE_BAD_ITEM, HttpStatus.BAD_REQUEST);
+        }
+
+        return itemList.stream().filter(aItem -> aItem.getId() == itemId).findFirst().orElseThrow(
+                () -> new APIException(MESSAGE_NOT_FOUND, HttpStatus.NOT_FOUND)
+        );
     }
 }
