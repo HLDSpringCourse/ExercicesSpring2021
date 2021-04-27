@@ -5,14 +5,16 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Getter
+@Setter
 public class Item {
 	
-	private @Id @GeneratedValue Long id;
+	protected @Id @GeneratedValue Long id;
 
-	private String name;
+	protected String name;
 
 	public Item(String name)
 	{

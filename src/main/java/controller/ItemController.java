@@ -29,16 +29,16 @@ public class ItemController {
 
     @GetMapping(path = "/get/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Item> getItem(@PathVariable int id) {
-		return ResponseEntity.status(HttpStatus.OK).body(new Item("First item"));
+		return ResponseEntity.status(HttpStatus.OK).body(itemService.get(Long.valueOf(id)));
     }
 
 	@DeleteMapping(path = "/delete/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> deleteItem(@PathVariable int id) {
-		return ResponseEntity.status(HttpStatus.OK).body("{'success':true}");
+    public ResponseEntity<Item> deleteItem(@PathVariable int id) {
+		return ResponseEntity.status(HttpStatus.OK).body(itemService.delete(Long.valueOf(id)));
     }
 
 	@PutMapping(path = "/put/{id}/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> putItem(@PathVariable int id, @PathVariable String name) {
-		return ResponseEntity.status(HttpStatus.OK).body("{'success':true}");
+    public ResponseEntity<Item> putItem(@PathVariable int id, @PathVariable String name) {
+		return ResponseEntity.status(HttpStatus.OK).body(itemService.put(Long.valueOf(id), name));
     }
 }
