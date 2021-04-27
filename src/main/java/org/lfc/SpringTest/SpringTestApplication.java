@@ -8,6 +8,7 @@ import controller.ItemController;
 
 @SpringBootApplication
 @ComponentScan(basePackageClasses = ItemController.class)
+@ComponentScan(basePackageClasses = org.lfc.service.ItemService.class)
 public class SpringTestApplication {
 
 	public static void main(String[] args) {

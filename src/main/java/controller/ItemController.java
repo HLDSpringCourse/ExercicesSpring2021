@@ -13,17 +13,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import org.lfc.entity.Item;
+import org.lfc.service.ItemService;
 
 @RestController
 @RequestMapping("/item")
 public class ItemController {
-	// @Autowired
-	// ItemService itemService
+	@Autowired
+	ItemService itemService;
     
 	@PostMapping(path = "/post/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Item> postItem(@PathVariable String name)
 	{
-		return ResponseEntity.status(HttpStatus.OK).body(new Item(name));
+		return ResponseEntity.status(HttpStatus.OK).body(itemService.add(name));
 	}
 
     @GetMapping(path = "/get/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
