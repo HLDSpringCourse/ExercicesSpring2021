@@ -3,7 +3,6 @@ package org.ld.leonied.service;
 import org.ld.leonied.NotFoundException;
 import org.ld.leonied.entity.City;
 import org.ld.leonied.entity.Order;
-//import org.ld.leonied.entity.Search;
 import org.ld.leonied.entity.Search;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -11,8 +10,6 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
-import java.util.stream.Collectors;
 
 @Service
 public class OrderService {
