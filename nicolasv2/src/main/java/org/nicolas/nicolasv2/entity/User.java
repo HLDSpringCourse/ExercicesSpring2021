@@ -13,6 +13,16 @@ public class User {
     private String name;
     private String zipCode;
     private String city;
+    private String departmentCode;
+
+
+    public String getDepartmentCode() {
+        return departmentCode;
+    }
+
+    public void setDepartmentCode(String departmentCode) {
+        this.departmentCode = departmentCode;
+    }
 
 
 
@@ -33,10 +43,15 @@ public class User {
     }
 
 
-    public User(String name, String zipCode, String city) {
+ /*   public User(String name, String zipCode, String city) {
         this.name = name;
         this.zipCode = zipCode;
         this.city = city;
+    }*/
+
+    public User() {
+        this.name = name;
+        this.zipCode = zipCode;
     }
 
     public int getId() {
