@@ -1,40 +1,70 @@
 package org.abr.audreybr.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import java.util.Objects;
 
-@Entity
-public class User{
+public class User {
 
-    @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private Long id;
-    private String firstName;
-    private String lastName;
+    private int id;
+    private String name;
+    private String city;
 
-    public Long getId() {
+    public User() {
+    }
+
+    public User(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    public User(int id, String name, String city) {
+        this.id = id;
+        this.name = name;
+        this.city = city;
+    }
+
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getName() {
+        return name;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getLastName() {
-        return lastName;
+    public String getCity() {
+        return city;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", city='" + city + '\'' +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object u) {
+        if (this == u) return true;
+        if (u == null || getClass() != u.getClass()) return false;
+        User user = (User) u;
+        return id == user.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }
