@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Commandes</title>
+</head>
+<body>
+    <h1>Liste des commandes</h1>
+    <hr/>
+    <form action="#" th:action="@{/create}" th:method="post" th:object="${order}">
+        <input id="name" type="text" placeholder="Nom de la commande" th:field="*{name}"/>
+        <input id="lattitude" type="number" placeholder="Lattitude" th:field="*{lattitude}"/>
+        <input id="longitude" type="number" placeholder="Longitude" th:field="*{longitude}"/>
+        <input type="submit" value="Ajouter"/>
+    </form>
+    <hr/>
+    <table th:if="${!orders.isEmpty()}">
+        <tr>
+            <th>Nom</th>
+            <th>Ville</th>
+            <th>Lattitude</th>
+            <th>Longitude</th>
+            <th></th>
+        </tr>
+        <tr th:each ="order : ${orders}">
+            <td style="display:none;" th:utext="${order.id}"></td>
+            <td><a th:href="@{/show/{id}(id=${order.id})}" th:utext="${order.name}"></a></td>
+            <td th:utext="${order.city}"></td>
+            <td th:utext="${order.lattitude != 9999} ? ${order.lattitude} : '-'"></td>
+            <td th:utext="${order.longitude != 9999} ? ${order.longitude} : '-'"></td>
+            <td>
+                <form action="#" th:action="@{/delete/{id}(id=${order.id})}" th:method="delete">
+                    <input type="hidden" name="_method" value="delete" />
+                    <button type="submit" class="color:red;">X</button>
+                </form>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

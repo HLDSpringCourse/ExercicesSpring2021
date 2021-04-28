@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:utext="'Commande n° ' + ${order.id}"></title>
+</head>
+<body>
+    <h1 th:utext="'Commande n° ' + ${order.id}"></h1>
+    <hr/>
+    <ul>
+        <li><b>Nom : </b><span th:utext="${order.name}"></span></li>
+        <li><b>Ville : </b><span th:utext="${order.city}"></span></li>
+        <li><b>Coordonées GPS : </b><span th:utext="${order.lattitude} + '° - ' + ${order.longitude} + '°'"></span></li>
+    </ul>
+</body>
+</html>
