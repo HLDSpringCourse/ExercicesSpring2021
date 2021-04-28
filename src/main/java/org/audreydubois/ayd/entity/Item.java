@@ -14,10 +14,16 @@ public class Item {
 
     private @Column String name;
 
+    private @Column String region;
+
+    private @Column String regionCode;
+
     public Item(){}
 
-    public Item(String name){
+    public Item(String name, String regionCode, String region){
         this.name = name;
+        this.regionCode = regionCode;
+        this.region = region;
     }
 
     public Long getId() {
@@ -36,6 +42,22 @@ public class Item {
         this.name = name;
     }
 
+    public String getRegion() {
+        return region;
+    }
+
+    public void setRegion(String region) {
+        this.region = region;
+    }
+
+    public String getRegionCode() {
+        return regionCode;
+    }
+
+    public void setRegionCode(String regionCode) {
+        this.regionCode = regionCode;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if(this == obj)
@@ -43,16 +65,17 @@ public class Item {
         if(!(obj instanceof Item))
             return false;
         Item item = (Item) obj;
-        return Objects.equals(this.id, item.id) && Objects.equals(this.name, item.name);
+        return Objects.equals(this.id, item.id) && Objects.equals(this.name, item.name)
+                && Objects.equals(this.regionCode, item.regionCode);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.id, this.name);
+        return Objects.hash(this.id, this.name, this.regionCode);
     }
 
     @Override
     public String toString() {
-        return  "Item{id="+this.id+", name="+this.name+"}";
+        return  "Item{id="+this.id+", name="+this.name+", regionCode="+this.regionCode+"}";
     }
 }

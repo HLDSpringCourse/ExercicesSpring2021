@@ -1,0 +1,14 @@
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+th, td {
+  padding: 10px 15px;
+  text-align: center;
+}
+button:hover {
+    background-color: #ffd666;
+}
+input{
+    font-size: 1.2rem;
+}

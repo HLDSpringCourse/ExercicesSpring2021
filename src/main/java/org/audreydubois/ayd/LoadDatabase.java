@@ -1,7 +1,7 @@
 package org.audreydubois.ayd;
 
 import org.audreydubois.ayd.entity.Item;
-import org.audreydubois.ayd.repository.ItemRepository;
+import org.audreydubois.ayd.dao.ItemRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -15,13 +15,13 @@ public class LoadDatabase {
     @Bean
     CommandLineRunner initDatabase(ItemRepository repository){
         return args -> {
-            log.info("Preloading " + repository.save(new Item("Chaussure")));
-            log.info("Preloading " + repository.save(new Item("Pistache")));
-            log.info("Preloading " + repository.save(new Item("Cravate")));
-            log.info("Preloading " + repository.save(new Item("Bouteille")));
-            log.info("Preloading " + repository.save(new Item("Miroir")));
-            log.info("Preloading " + repository.save(new Item("Flute")));
-            log.info("Preloading " + repository.save(new Item("Poubelle")));
+            log.info("Preloading " + repository.save(new Item("Chaussure", "01", "Test 1")));
+            log.info("Preloading " + repository.save(new Item("Pistache", "02", "Test 2")));
+            log.info("Preloading " + repository.save(new Item("Cravate", "03", "Test 3")));
+            log.info("Preloading " + repository.save(new Item("Bouteille", "04", "Test 4")));
+            log.info("Preloading " + repository.save(new Item("Miroir", "05", "Test 5")));
+            log.info("Preloading " + repository.save(new Item("Flute", "06", "Test 6")));
+            log.info("Preloading " + repository.save(new Item("Poubelle", "07", "Test 7")));
         };
     }
 }

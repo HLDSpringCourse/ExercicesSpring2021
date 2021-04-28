@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>one item</title>
+</head>
+<body>
+    <div th:if="${item != null}">
+        <p>Id : <span th:utext="${item.id}"></span></p>
+        <p>Nom : <span th:utext="${item.name}"></span></p>
+        <p>Code : <span th:utext="${item.regionCode}"></span></p>
+        <p>Région : <span th:utext="${item.region}"></span></p>
+    </div>
+</body>
+</html>
