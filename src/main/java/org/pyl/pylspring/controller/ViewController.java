@@ -35,20 +35,38 @@ public class ViewController {
         return "view-by-id";
     }
 
+    // error managment ? : https://stackoverflow.com/questions/47740583/spring-mvc-how-to-pass-a-parameter-to-thymeleaf-view-when-redirecting
     @PostMapping("/additem")
-    public String create(@ModelAttribute("itemDTO") ItemDTO itemDTO) {
-        try {
-            itemService.create(itemDTO);
-            return "redirect:/itemsview";
+    public String create(@ModelAttribute("itemDTO") ItemDTO itemDTO)  {
+            try {
+                itemService.create(itemDTO);
+            } catch (APIException e) {
+                log.error(e.toString());
+            }
 
-        } catch(APIException e) {
-            return "additem";
+            return "redirect:/itemsview";
+    }
+
+    @PutMapping("/updateitem")
+    public String update(@ModelAttribute("itemDTO") ItemDTO itemDTO)  {
+        try {
+            itemService.update(itemDTO);
+        } catch (APIException e) {
+            log.error(e.toString());
         }
+
+        return "redirect:/itemsview/"+itemDTO.getId();
     }
 
     @DeleteMapping( "/deleteitem/{id}")
     public String delete(@PathVariable("id") String id) throws APIException {
-        itemService.delete(id);
+
+        try {
+            itemService.delete(id);
+        } catch (APIException e) {
+            log.error(e.toString());
+        }
+
         return "redirect:/itemsview";
     }
 

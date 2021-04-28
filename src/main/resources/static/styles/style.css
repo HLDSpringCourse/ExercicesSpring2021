@@ -1,0 +1,169 @@
+body {
+    box-sizing: border-box;
+    background-color: #2f2f2f;
+    color: #f2f2f2;
+    padding: 1rem 5rem;
+}
+
+body * {
+    box-sizing: border-box;
+}
+
+h1 {
+    position: relative;
+    padding: 1rem 5rem;
+    border: 2px solid black;
+    border-radius: 10px;
+    width: max-content;
+    left: 50%;
+    transform: translateX(-50%);
+
+    background-color: #f2f2f2;
+    color: #2f2f2f;
+}
+
+.view form.additem_form {
+    position: relative;
+    margin: 5rem 5rem 5rem auto;
+
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: stretch;
+    align-items: flex-start;
+
+    width: max-content;
+
+    padding: 3rem 4rem;
+
+    border: 3px dashed #f2f2f2;
+    border-radius: 2px;
+}
+
+.view form.additem_form > input[type="submit"] {
+    align-self: flex-end;
+    margin-top: auto;
+    cursor: pointer;
+}
+
+.view form.additem_form > label {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    padding: .5rem 0;
+
+}
+
+.view form.additem_form > label > input {
+    margin-left: .5rem;
+    flex: 1 1 auto;
+}
+
+.view ul {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+    align-items: center;
+
+    padding: 2rem;
+    border-radius: 2px;
+    border-top: 2px solid #f2f2f2;;
+    list-style: none;
+}
+
+.view ul > li {
+    border: 5px solid #f2f2f2;
+    border-radius: 30px;
+    padding: .5rem 2rem;
+    margin: 1rem;
+
+}
+
+.view ul > li > a {
+    color: #f2f2f2;
+    text-decoration: none;
+    text-transform: uppercase;
+    display: block;
+}
+
+.view ul > li > a:hover {
+    text-decoration: underline;
+}
+
+.view ul > li > form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.view ul > li > form > button {
+    cursor: pointer;
+}
+
+ /*view by id*/
+.viewbyid form {
+    position : relative;
+
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    justify-content: center;
+
+    border: 5px solid #f2f2f2;
+    border-radius: 30px;
+    padding: .5rem 2rem;
+    margin: 10vh auto;
+
+    width: 50%;
+}
+
+.viewbyid form.additem_form > input[type="submit"] {
+    align-self: flex-end;
+    margin-top: auto;
+    cursor: pointer;
+}
+
+.viewbyid form.additem_form > * {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    padding: .5rem 0;
+
+}
+
+.viewbyid form.additem_form > label > input {
+    margin-left: .5rem;
+    flex: 1 1 auto;
+}
+
+.viewbyid footer {
+    width: 100%;
+    margin-top: 5rem;
+    color: #f2f2f2;
+
+    border-top: 5px solid #f2f2f2;
+}
+
+.viewbyid footer > a {
+    color: #f2f2f2;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-weight: 900;
+
+    border: 1px solid #f2f2f2;
+    border-radius: 15px;
+
+    height: max-content;
+    width: max-content;
+
+    margin-top: 2rem;
+    margin-left: 2rem;
+    padding: 1rem 1.5rem;
+    display: block;
+}
+
+.viewbyid footer > a:hover {
+    text-decoration: underline;
+    color: #2f2f2f;
+    background-color: #f2f2f2;
+
+}

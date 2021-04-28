@@ -6,57 +6,22 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <link th:href="@{/styles/style.css}" rel="stylesheet" />
 
-    <style>
-        body {
-            background-color: #2f2f2f;
-            color: #f2f2f2;
-        }
-        h1 {
-            position: relative;
-            padding: 1rem 5rem;
-            border: 2px solid black;
-            border-radius: 10px;
-            width: max-content;
-            left: 50%;
-            transform: translateX(-50%);
-
-            background-color: #f2f2f2;
-            color: #2f2f2f;
-        }
-
-        ul {
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-
-            padding: 2rem;
-            border: 2px solid black;
-            border-radius: 2px;
-            list-style: none;
-        }
-
-        ul > li {
-            border: 5px solid #f2f2f2;
-            border-radius: 30px;
-            padding: .5rem 2rem;
-
-        }
-    </style>
 </head>
-<body>
+<body class="view">
 
 <h1>Items</h1>
 
-<form th:action="@{/additem}"
+<form class="additem_form" th:action="@{/additem}"
       th:object="${itemDTO}"
       method="POST">
     <label>
-        Nom:
+        Nom :
         <input type="text" th:field="*{name}" />
     </label>
     <label>
-        Code Region:
+        Code Region :
         <input type="text" th:field="*{regionCode}" />
     </label>
     <input type="submit" value="Ajouter" />
@@ -64,13 +29,14 @@
 
 <ul th:if="${items != null && !items.isEmpty()}">
     <li th:each="item: ${items}">
-        <h2 th:text='${"Nom : "+item.name}'></h2>
+        <a th:href="@{'/itemsview/'+${item.id}}">
+            <h2 th:text='${"Nom : "+item.name}'></h2>
+        </a>
         <p th:text='${"Region : "+item.regionName}'></p>
         <p th:text='${"Code Region : "+item.regionCode}'></p>
         <form action="#" th:action="@{'/deleteitem/{id}'(id=${item.id})}" th:method="delete" >
             <button type="submit" id="Supprimer">Supprimer</button>
         </form>
-
     </li>
 </ul>
 

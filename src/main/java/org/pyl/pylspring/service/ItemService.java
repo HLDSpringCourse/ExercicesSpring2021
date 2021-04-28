@@ -1,5 +1,6 @@
 package org.pyl.pylspring.service;
 
+import org.apache.commons.lang3.StringUtils;
 import org.pyl.pylspring.Client.GeoApiClient;
 import org.pyl.pylspring.dto.ItemDTO;
 import org.pyl.pylspring.entity.Item;
@@ -43,6 +44,8 @@ public class ItemService {
 
     public ItemDTO create(ItemDTO itemDTO) throws APIException {
         if(!isItemDTOValid(itemDTO)) throw new APIException(Constants.MESSAGE_BAD_ITEM, HttpStatus.BAD_REQUEST);
+
+        itemDTO.setRegionCode(StringUtils.leftPad(itemDTO.getRegionCode(), 2, "0"));
 
         itemDTO.setRegionName(geoApiClient.getRegion(itemDTO.getRegionCode()));
 

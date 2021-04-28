@@ -7,50 +7,37 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
 
-    <style>
-        body {
-            background-color: #2f2f2f;
-            color: #f2f2f2;
-        }
-        h1 {
-            position: relative;
-            padding: 1rem 5rem;
-            border: 2px solid black;
-            border-radius: 10px;
-            width: max-content;
-            left: 50%;
-            transform: translateX(-50%);
-
-            background-color: #f2f2f2;
-            color: #2f2f2f;
-        }
-
-       section {
-           position : relative;
-
-           display: flex;
-           flex-flow: column nowrap;
-           align-items: center;
-           justify-content: center;
-
-            border: 5px solid #f2f2f2;
-            border-radius: 30px;
-            padding: .5rem 2rem;
-            margin: 10vh auto;
-
-           width: 50%;
-        }
-    </style>
+    <link th:href="@{/styles/style.css}" rel="stylesheet" />
 </head>
-<body>
+<body class="viewbyid">
 
 <h1 th:text='${"Item n°"+item.id}'></h1>
 
-<section>
-    <h2 th:text='${"Nom : "+item.name}'></h2>
+
+<form class="additem_form" th:action="@{/updateitem}"
+      th:object="${item}"
+      th:method="put">
+    <label>
+        Nom :
+        <input type="text" th:field="*{name}" th:value="${item.name}"/>
+    </label>
+    <label>
+        Code Region :
+        <input type="text" th:field="*{regionCode}" th:value="${item.regionCode}"/>
+    </label>
+    <input type="hidden" th:field="*{id}" th:value="${item.id}">
     <p th:text='${"Region : "+item.regionName}'></p>
-    <p th:text='${"Code Region : "+item.regionCode}'></p>
-</section>
+    <input type="submit" value="Modifier" />
+</form>
+
+
+
+
+<footer>
+    <a th:href="@{'/itemsview/'}">
+        Retour
+    </a>
+</footer>
 
 </body>
 </html>
