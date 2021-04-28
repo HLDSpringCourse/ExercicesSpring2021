@@ -27,7 +27,7 @@ public class OrderService {
         }
 
         City[] cities = findCityNames(order.getLattitude(), order.getLongitude());
-        if(cities != null && cities.length > 0) {
+        if(cities != null) {
             order.setCity(cities[0].getNom());
         } else {
             order.setLattitude(9999);
@@ -98,7 +98,7 @@ public class OrderService {
         }
     }
 
-    public City[] findCityNames(int lattitude, int longitude) {
+    public City[] findCityNames(int lattitude, int longitude) throws NotFoundException {
         // find city name according to lattitude/longitude
         String requete = "";
         if(lattitude != 9999) {
@@ -112,9 +112,13 @@ public class OrderService {
                     = "https://geo.api.gouv.fr/communes?";
             ResponseEntity<City[]> response
                     = restTemplate.getForEntity(resourceUrl + requete + "fields=nom", City[].class);
-            return response.getBody();
+            if(response.getBody() != null && response.getBody().length > 0) {
+                return response.getBody();
+            } else {
+                throw new NotFoundException("Aucune ville ne correspond à ces coordonnées");
+            }
         } else {
-            return null;
+           return null;
         }
     }
 }
