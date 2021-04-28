@@ -10,7 +10,14 @@
     <ul>
         <li><b>Nom : </b><span th:utext="${order.name}"></span></li>
         <li><b>Ville : </b><span th:utext="${order.city}"></span></li>
-        <li><b>Coordonées GPS : </b><span th:utext="${order.lattitude} + '° - ' + ${order.longitude} + '°'"></span></li>
+        <li><b>Coordonées GPS : </b><span th:utext="(${order.lattitude != 9999} ? ${order.lattitude} + '°' : '?') + ' - ' + (${order.longitude != 9999} ? ${order.longitude} + '°' : '?')"></span></li>
     </ul>
+    <form action="#" th:action="@{/delete/{id}(id=${order.id})}" th:method="delete">
+        <input type="hidden" name="_method" value="delete" />
+        <button type="submit" class="color:red;">X</button>
+    </form>
+    <div>
+        <a th:href="@{/index}">Retour à la liste des commandes</a>
+    </div>
 </body>
 </html>
