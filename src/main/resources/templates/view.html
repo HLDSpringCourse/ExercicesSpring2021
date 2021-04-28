@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <style>
+        body {
+            background-color: #2f2f2f;
+            color: #f2f2f2;
+        }
+        h1 {
+            position: relative;
+            padding: 1rem 5rem;
+            border: 2px solid black;
+            border-radius: 10px;
+            width: max-content;
+            left: 50%;
+            transform: translateX(-50%);
+
+            background-color: #f2f2f2;
+            color: #2f2f2f;
+        }
+
+        ul {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+
+            padding: 2rem;
+            border: 2px solid black;
+            border-radius: 2px;
+            list-style: none;
+        }
+
+        ul > li {
+            border: 5px solid #f2f2f2;
+            border-radius: 30px;
+            padding: .5rem 2rem;
+
+        }
+    </style>
+</head>
+<body>
+
+<h1>Items</h1>
+
+<form th:action="@{/additem}"
+      th:object="${itemDTO}"
+      method="POST">
+    <label>
+        Nom:
+        <input type="text" th:field="*{name}" />
+    </label>
+    <label>
+        Code Region:
+        <input type="text" th:field="*{regionCode}" />
+    </label>
+    <input type="submit" value="Create" />
+</form>
+
+<ul>
+    <li th:each="item: ${items}">
+        <h2 th:text='${"Nom : "+item.name}'></h2>
+        <p th:text='${"Region : "+item.regionName}'></p>
+        <p th:text='${"Code Region : "+item.regionCode}'></p>
+    </li>
+</ul>
+
+</body>
+</html>
+
+
+

@@ -22,6 +22,11 @@ public class ItemDTO implements Serializable {
         super();
     }
 
+    public ItemDTO(String name, String regionCode) {
+        this.name = name;
+        this.regionCode = regionCode;
+    }
+
     public ItemDTO(Long id, String name, String regionCode, String regionName) {
         this.id = id;
         this.name = name;
