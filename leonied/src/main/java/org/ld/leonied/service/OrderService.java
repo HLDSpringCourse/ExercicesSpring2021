@@ -1,9 +1,11 @@
 package org.ld.leonied.service;
 
 import org.ld.leonied.NotFoundException;
+import org.ld.leonied.configuration.RestTemplateConfig;
 import org.ld.leonied.entity.City;
 import org.ld.leonied.entity.Order;
 import org.ld.leonied.entity.Search;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -14,6 +16,8 @@ import java.util.List;
 @Service
 public class OrderService {
     private List<Order> orders = new ArrayList<>();
+    @Autowired
+    private RestTemplate restTemplate;
 
     public void addOrder(Order order) {
         if(orders.size() > 0) {
@@ -104,7 +108,6 @@ public class OrderService {
             requete += "lon=" + longitude + "&";
         }
         if(!requete.equals("")) {
-            RestTemplate restTemplate = new RestTemplate();
             String resourceUrl
                     = "https://geo.api.gouv.fr/communes?";
             ResponseEntity<City[]> response

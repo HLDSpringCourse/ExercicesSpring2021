@@ -55,6 +55,20 @@ class LeonieDApplicationTests {
 	}
 
 	@Test
+	void testAddOrderWithLatAndLon() throws Exception {
+		Order order = new Order("Nicolas", 49, 2);
+
+		mvc.perform(post("/orders")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(objectMapper.writeValueAsString(order))
+		)
+				.andExpect(status().isOk())
+				.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+				.andExpect(jsonPath("$.name", is("Nicolas")))
+				.andExpect(jsonPath("$.city", is("Triel-sur-Seine")));
+	}
+
+	@Test
 	void testGetOrderByName() throws Exception {
 		orderService.getOrders().clear();
 		orderService.addOrder(new Order("Edouard", "Tours"));
