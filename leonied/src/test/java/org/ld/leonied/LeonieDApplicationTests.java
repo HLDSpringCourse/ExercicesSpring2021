@@ -98,6 +98,20 @@ class LeonieDApplicationTests {
 	}
 
 	@Test
+	void testGetOrderByCityLat() throws Exception {
+		orderService.getOrders().clear();
+		orderService.addOrder(new Order("Anne-Cécile", 45, 4));
+		orderService.addOrder(new Order("Mahault", 45, 4));
+		orderService.addOrder(new Order("Maximilien", 49, 2));
+
+		mvc.perform(get("/orders/search?lattitude=49")
+				.contentType(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk())
+				.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+				.andExpect(jsonPath("$", hasSize(1)));
+	}
+
+	@Test
 	void testDeleteOrder() throws Exception {
 		orderService.getOrders().clear();
 		orderService.addOrder(new Order("Léa", "Ascq"));

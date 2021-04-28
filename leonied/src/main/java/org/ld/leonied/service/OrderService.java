@@ -48,7 +48,7 @@ public class OrderService {
                 .orElseThrow(() -> new NotFoundException("La commande d'id " + id + " n'a pas été trouvée"));
     }
 
-    public List<Order> findOrdersByParam(String name, String cityName, int cityLat, int cityLong) {
+    public List<Order> findOrdersByParam(String name, String cityName, Integer cityLat, Integer cityLong) {
         Search.SearchBuilder searchBuilder = new Search.SearchBuilder();
         if(name != null) {
             searchBuilder.name(name);
@@ -56,10 +56,10 @@ public class OrderService {
         if(cityName != null) {
             searchBuilder.cityName(cityName);
         }
-        if(cityLat != 9999) {
+        if(cityLat != null) {
             searchBuilder.cityLat(cityLat);
         }
-        if(cityLong != 9999) {
+        if(cityLong != null) {
             searchBuilder.cityLong(cityLong);
         }
         return searchBuilder.build().result(orders);

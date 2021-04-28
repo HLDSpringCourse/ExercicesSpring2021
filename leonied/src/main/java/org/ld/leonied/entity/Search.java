@@ -40,11 +40,11 @@ public class Search {
     }
 
     public Predicate<Order> predicateCityLat() {
-        return order -> cityLat != 9999 && order.getLattitude() == cityLat;
+        return order -> cityLat == 9999 || order.getLattitude() == cityLat;
     }
 
     public Predicate<Order> predicateCityLong() {
-        return order -> cityLong != 9999 && order.getLattitude() == cityLong;
+        return order -> cityLong == 9999 || order.getLattitude() == cityLong;
     }
 
     // Builder Class

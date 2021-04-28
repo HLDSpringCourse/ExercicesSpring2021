@@ -18,6 +18,12 @@ public class Order {
         this.city = city;
     }
 
+    public Order(String name, int lattitude, int longitude) {
+        this.name = name;
+        this.lattitude = lattitude;
+        this.longitude = longitude;
+    }
+
     public int getId() {
         return id;
     }
