@@ -1,5 +1,6 @@
 package org.pyl.pylspring.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.pyl.pylspring.dto.ItemDTO;
 import org.pyl.pylspring.exception.APIException;
 import org.pyl.pylspring.service.ItemService;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
+@Slf4j
 public class ViewController {
 
     private final ItemService itemService;
@@ -42,6 +44,12 @@ public class ViewController {
         } catch(APIException e) {
             return "additem";
         }
+    }
+
+    @DeleteMapping( "/deleteitem/{id}")
+    public String delete(@PathVariable("id") String id) throws APIException {
+        itemService.delete(id);
+        return "redirect:/itemsview";
     }
 
 }
