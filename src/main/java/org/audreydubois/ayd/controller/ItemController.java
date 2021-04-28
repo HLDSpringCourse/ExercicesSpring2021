@@ -1,5 +1,9 @@
 package org.audreydubois.ayd.controller;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.audreydubois.ayd.entity.Item;
 import org.audreydubois.ayd.exception.ItemNotFoundException;
 import org.audreydubois.ayd.repository.ItemRepository;
@@ -10,8 +14,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Api(value="items API", produces = "", consumes="" , tags="Items", protocols="GET, POST, PATCH, DELETE")
 @RestController
-@RequestMapping("/item")
+@RequestMapping("/items")
 public class ItemController {
     private final ItemService itemService;
     private final ItemRepository itemRepository;
@@ -20,7 +25,7 @@ public class ItemController {
         this.itemRepository = repository;
     }
 
-    @GetMapping(path = "/list")
+    @GetMapping
     public ResponseEntity<List<Item>> getAll() {
         List<Item> items = itemRepository.findAll();
         return ResponseEntity.status(HttpStatus.OK).body(items);
@@ -33,7 +38,13 @@ public class ItemController {
 
     }
 
-    @PostMapping(path = "/add")
+    @ApiOperation(value = "Creer une item", response = Item.class)
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Item bien créée"),
+            @ApiResponse(responseCode = "400", description = "Requete erronée"),
+            @ApiResponse(responseCode = "404", description = "Code region inexistant"),
+    })
+    @PostMapping
     public ResponseEntity<Item> add(@RequestBody Item item) {
         if(item != null){
             Item itemSave = itemRepository.save(item);
@@ -44,14 +55,14 @@ public class ItemController {
         }
     }
 
-    @DeleteMapping(path = "/delete/{id}")
+    @DeleteMapping(path = "/{id}")
     public ResponseEntity<String> deleteItem(@PathVariable Long id) {
 
         itemRepository.deleteById(id);
         return ResponseEntity.status(HttpStatus.OK).body("Item n°"+id+" deleted");
     }
 
-    @PatchMapping("/patch/{id}")
+    @PatchMapping("/{id}")
     public ResponseEntity<Item> replaceEmployee(@RequestBody Item newItem, @PathVariable Long id){
         Item newItemSave =  itemRepository.findById(id).map(
                 item -> {
