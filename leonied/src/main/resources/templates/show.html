@@ -5,7 +5,7 @@
     <title th:utext="'Commande n° ' + ${order.id}"></title>
 </head>
 <body>
-    <h1 th:utext="'Commande n° ' + ${order.id}"></h1>
+    <header th:insert="general.html :: header (title = 'Commande n° ' + ${order.id})"> </header>
     <hr/>
     <ul>
         <li><b>Nom : </b><span th:utext="${order.name}"></span></li>
@@ -14,10 +14,11 @@
     </ul>
     <form action="#" th:action="@{/delete/{id}(id=${order.id})}" th:method="delete">
         <input type="hidden" name="_method" value="delete" />
-        <button type="submit" class="color:red;">X</button>
+        <button type="submit" class="color:red;">Supprimer la commande</button>
     </form>
     <div>
         <a th:href="@{/index}">Retour à la liste des commandes</a>
     </div>
+    <footer th:insert="general.html :: footer"> </footer>
 </body>
 </html>
