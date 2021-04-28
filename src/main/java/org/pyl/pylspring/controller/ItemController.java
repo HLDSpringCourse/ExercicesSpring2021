@@ -3,7 +3,6 @@ package org.pyl.pylspring.controller;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import io.swagger.annotations.Tag;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.pyl.pylspring.dto.ItemDTO;
@@ -90,10 +89,10 @@ public class ItemController {
     }
 
     public class ErrorMessage {
-        public String errorMessage;
+        public String message;
 
-        public ErrorMessage(String errorMessage) {
-            this.errorMessage = errorMessage;
+        public ErrorMessage(String message) {
+            this.message = message;
         }
     }
 

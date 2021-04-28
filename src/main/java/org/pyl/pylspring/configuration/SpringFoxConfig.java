@@ -16,6 +16,9 @@ import java.util.Comparator;
 
 import static springfox.documentation.builders.PathSelectors.regex;
 
+/**
+ * http://localhost:8080/swagger-ui/
+ */
 @Configuration
 @EnableSwagger2
 public class SpringFoxConfig {
@@ -33,7 +36,7 @@ public class SpringFoxConfig {
     }
 
     private ApiInfo metaData() {
-        ApiInfo apiInfo = new ApiInfo(
+        return new ApiInfo(
                     "Spring Boot REST API CEFIM 2021",
                     "Spring Boot REST API Exercise",
                     "1.0",
@@ -41,8 +44,7 @@ public class SpringFoxConfig {
                     new Contact("PYL", "https://legeay.info", "fake@email.com"),
                     "Apache License Version 2.0",
                     "https://www.apache.org/licenses/LICENSE-2.0",
-                    new ArrayList()
+                    new ArrayList<>()
                 );
-        return apiInfo;
     }
 }

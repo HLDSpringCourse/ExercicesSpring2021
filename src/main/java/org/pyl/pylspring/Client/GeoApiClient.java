@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Service
-public class ApiGeoClient {
+public class GeoApiClient {
 
     private final RestTemplate restTemplate = new RestTemplate();
 
@@ -30,7 +30,7 @@ public class ApiGeoClient {
         RegionDTO regionDTO;
 
         try {
-            regionDTO = restTemplate.getForObject(Constants.API_GOV_BASE_URL + Constants.API_GOV_REGIONS_URL + "/" + code, RegionDTO.class);
+            regionDTO = restTemplate.getForObject(Constants.API_GOV_BASE_URL + Constants.API_GOV_REGIONS_URL + "/" + code+"?fields=nom", RegionDTO.class);
         }
         catch(RestClientException e) {
             // pas tip top

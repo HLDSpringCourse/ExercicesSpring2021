@@ -9,5 +9,4 @@ public class RegionDTO {
 
     private String nom;
 
-    private String code;
 }

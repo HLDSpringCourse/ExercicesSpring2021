@@ -1,8 +1,7 @@
 package org.pyl.pylspring.service;
 
-import org.pyl.pylspring.Client.ApiGeoClient;
+import org.pyl.pylspring.Client.GeoApiClient;
 import org.pyl.pylspring.dto.ItemDTO;
-import org.pyl.pylspring.dto.RegionDTO;
 import org.pyl.pylspring.entity.Item;
 import org.pyl.pylspring.exception.APIException;
 import org.springframework.http.HttpStatus;
@@ -10,7 +9,6 @@ import org.springframework.stereotype.Service;
 import util.Constants;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,15 +17,15 @@ public class ItemService {
 
     private static long currentId = 3L;
 
-    private final ApiGeoClient apiGeoClient;
+    private final GeoApiClient geoApiClient;
 
     private final List<Item> itemList = new ArrayList<>();
 
 
-    public ItemService(ApiGeoClient apiGeoClient) {
+    public ItemService(GeoApiClient geoApiClient) {
         super();
 
-        this.apiGeoClient = apiGeoClient;
+        this.geoApiClient = geoApiClient;
 
         itemList.add(new Item(1L, "toto", "52", "Pays de la Loire"));
         itemList.add(new Item(2L, "titi", "01", "Guadeloupe"));
@@ -46,7 +44,7 @@ public class ItemService {
     public ItemDTO create(ItemDTO itemDTO) throws APIException {
         if(!isItemDTOValid(itemDTO)) throw new APIException(Constants.MESSAGE_BAD_ITEM, HttpStatus.BAD_REQUEST);
 
-        itemDTO.setRegionName(apiGeoClient.getRegion(itemDTO.getRegionCode()));
+        itemDTO.setRegionName(geoApiClient.getRegion(itemDTO.getRegionCode()));
 
         final Item item = dtoToEntity(itemDTO);
         currentId++;
@@ -59,7 +57,7 @@ public class ItemService {
 
         if(!isItemDTOValid(itemDTO)) throw new APIException(Constants.MESSAGE_BAD_ITEM, HttpStatus.BAD_REQUEST);
 
-        itemDTO.setRegionName(apiGeoClient.getRegion(itemDTO.getRegionCode()));
+        itemDTO.setRegionName(geoApiClient.getRegion(itemDTO.getRegionCode()));
 
         final long itemId = itemDTO.getId();
 
