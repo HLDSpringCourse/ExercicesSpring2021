@@ -102,6 +102,8 @@ public class OrderService {
                 originalOrder.setLongitude(null);
             }
         }
+
+        orderRepository.save(originalOrder);
     }
 
     public City[] findCityNames(Integer lattitude, Integer longitude) throws NotFoundException {

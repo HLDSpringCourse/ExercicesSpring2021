@@ -57,6 +57,12 @@ public class ViewController {
         return "resultats";
     }
 
+    @PutMapping(path ="/update")
+    public String update(@ModelAttribute Order order) {
+        orderService.updateOrder(order);
+        return "redirect:/show/" + order.getId();
+    }
+
     @DeleteMapping(path = "/delete/{id}")
     public String delete(@PathVariable Long id) throws NotFoundException {
         Order order = orderService.findOrderById(id);
