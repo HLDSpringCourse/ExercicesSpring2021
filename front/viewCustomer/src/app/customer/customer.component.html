@@ -1,0 +1,14 @@
+<div class="container">
+    <div class="row">
+      <div class="col-xs-12">
+        <h2>Mes clients</h2>
+        <button class="btn btn-primary" (click) = "viewCustomers()">Afficher la liste des clients</button>
+        <ul class="list-group">
+            <li  *ngFor="let customer of customers">
+                           {{customer.name}}
+                        
+            </li>
+          </ul>
+      </div>
+    </div>
+  </div>

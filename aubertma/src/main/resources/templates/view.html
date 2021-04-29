@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Espace Client</title>
+</head>
+<body>
+    <h4>ESPACE DE GESTION DES CLIENTS</h4>
+    <a href="http://localhost:8080/showAddCustomer">Ajouter</a>
+    <br/><br/>
+    <div>
+        <table border="1">
+            <tr>
+                <th>Id</th>
+                <th>Prénom</th>
+                <th>CodeCommune</th>
+            </tr>
+            <tr th:each ="customer : ${customers}">
+                <td th:utext="${customer.id}">...</td>
+                <td th:utext="${customer.name}">...</td>
+                <td th:utext="${customer.codeINSEE}">...</td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>
