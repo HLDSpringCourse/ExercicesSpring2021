@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <link th:href="@{/styles/style.css}" rel="stylesheet"/>
+</head>
+<body class="viewbyid">
+
+<h1 th:text='${"Item n°"+item.id}'></h1>
+
+
+<form class="additem_form" th:action="@{/updateitem}"
+      th:object="${item}"
+      th:method="put">
+    <label>
+        Nom :
+        <input type="text" th:field="*{name}" th:value="${item.name}"/>
+    </label>
+    <label>
+        Code Region :
+        <input list="regionCodeList" id="regionCodeInput" type="text" th:field="*{regionCode}"
+               th:value="${item.regionCode}"/>
+        <datalist id="regionCodeList">
+            <option th:each="regionCode: ${regionCodeList}" th:value="${regionCode.code}"
+                    th:text="${regionCode.code+' -> '+regionCode.nom}"></option>
+        </datalist>
+    </label>
+    <input type="hidden" th:field="*{id}" th:value="${item.id}">
+    <p th:text='${"Region : "+item.regionName}'></p>
+    <input type="submit" value="Modifier"/>
+</form>
+
+
+<footer>
+    <a th:href="@{'/itemsview/'}">
+        Retour
+    </a>
+</footer>
+
+</body>
+</html>
