@@ -1,11 +1,7 @@
 package org.audreydubois.ayd.entity;
-import lombok.Getter;
-import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+
+import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
@@ -13,6 +9,9 @@ public class Item {
     private @Id @GeneratedValue() Long id;
 
     private @Column String name;
+
+    @ManyToOne
+    private Region testRegion;
 
     private @Column String region;
 
@@ -24,6 +23,11 @@ public class Item {
         this.name = name;
         this.regionCode = regionCode;
         this.region = region;
+    }
+
+    public Item(String name, Region region){
+        this.name = name;
+        this.testRegion = region;
     }
 
     public Long getId() {
@@ -56,6 +60,14 @@ public class Item {
 
     public void setRegionCode(String regionCode) {
         this.regionCode = regionCode;
+    }
+
+    public Region getTestRegion() {
+        return testRegion;
+    }
+
+    public void setTestRegion(Region testRegion) {
+        this.testRegion = testRegion;
     }
 
     @Override

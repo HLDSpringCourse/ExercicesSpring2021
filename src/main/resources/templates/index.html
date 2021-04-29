@@ -30,8 +30,11 @@
     <h2>Ajouter un nouvel item : </h2>
     <form class="card add" action="#" th:action="@{/add}" th:method="post" th:object="${item}">
         <input id="name" type="text" placeholder="Nom de l'item" th:field="*{name}"/>
-        <input id="regionCode" type="text" placeholder="Code régional" th:field="*{regionCode}"/>
+        <input id="regionCode" type="text" list="regionCodeList" placeholder="Code régional" th:field="*{regionCode}"/>
         <input type="submit" value="Ajouter"/>
+        <datalist id="regionCodeList" >
+            <option th:each="region : ${regions}" th:value="${region.code}" th:text="${region.nom}"></option>
+        </datalist>
     </form>
 </body>
 </html>

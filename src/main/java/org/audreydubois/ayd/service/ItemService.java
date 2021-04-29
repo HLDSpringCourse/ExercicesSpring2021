@@ -1,8 +1,10 @@
 package org.audreydubois.ayd.service;
 import io.swagger.models.HttpMethod;
+import org.audreydubois.ayd.dao.RegionRepository;
 import org.audreydubois.ayd.dto.ItemDTO;
 import org.audreydubois.ayd.dto.RegionDTO;
 import org.audreydubois.ayd.entity.Item;
+import org.audreydubois.ayd.entity.Region;
 import org.audreydubois.ayd.exception.ItemNotFoundException;
 import org.audreydubois.ayd.dao.ItemRepository;
 import org.springframework.http.HttpStatus;
@@ -11,17 +13,20 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
+import javax.crypto.spec.PSource;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class ItemService {
     private final ItemRepository itemRepository;
+    private final RegionRepository regionRepository;
     private final RestTemplate restTemplate;
 
-    public ItemService(ItemRepository repository, RestTemplate restTemplate){
+    public ItemService(ItemRepository repository, RegionRepository regionRepository, RestTemplate restTemplate){
         this.itemRepository = repository;
         this.restTemplate = restTemplate;
+        this.regionRepository = regionRepository;
     }
     public ResponseEntity<List<Item>> getAll(){
         List<Item> items = itemRepository.findAll();
@@ -96,5 +101,23 @@ public class ItemService {
         }catch(RestClientException e){
             return null;
         }
+    }
+
+    public RegionDTO[] findAllRegions(){
+        try{
+            ResponseEntity<RegionDTO[]> result = restTemplate.getForEntity(
+                    "https://geo.api.gouv.fr/regions", RegionDTO[].class);
+            System.out.println(result);
+            return result.getBody() != null ? result.getBody() : null;
+        }catch(RestClientException e){
+            return null;
+        }
+    }
+
+    public List<Region> findRegionDB(String regionCode){
+        return regionRepository.findByRegionCode(regionCode);
+    }
+    public List<Region> findAllRegionsDB(){
+        return regionRepository.findAll();
     }
 }

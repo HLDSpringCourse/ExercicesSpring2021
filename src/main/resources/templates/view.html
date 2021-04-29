@@ -18,18 +18,39 @@
     <br/>
     <form class="card" style="display:none;" action="#" th:action="@{/patch/{id}(id=${item.id})}" th:object="${item}" th:method="patch">
         <h2>Modification</h2>
-        <label for="idItem">Id : </label><input id="idItem" type="text" placeholder="Nom de l'item" th:field="*{name}"/>
-        <label for="regionCode">Nom : </label> <input id="regionCode" type="text" placeholder="Code régional" th:field="*{regionCode}"/>
-        <label for="region">Code : </label> <input id="region" type="text" placeholder="Région" th:field="*{region}"/>
+        <label for="name">Nom : </label><input id="name" type="text" placeholder="Nom de l'item" th:field="*{name}"/>
+        <label for="regionCode">Code : </label> <input id="regionCode" list="regionCodeList" type="text" placeholder="Code régional" th:field="*{regionCode}"/>
+        <datalist id="regionCodeList" >
+            <option th:each="region : ${regions}" th:value="${region.code}" th:text="${region.nom}"></option>
+        </datalist>
+        <label for="region">Région : </label> <input id="region" type="text" placeholder="Région" th:field="*{region}"/>
         <input type="submit" value="Modifier"/>
     </form>
+
+
 </body>
-<script>
+<script  th:inline="javascript">
     let modifForm = document.querySelector('#modif');
     modifForm.addEventListener('click', ()=>{
         let formPatch = document.querySelector('form');
         formPatch.style.display = "grid";
         modifForm.style.display = "none";
+    })
+    let inputRegionCode = document.querySelector('input[list]');
+    let inputRegion = document.querySelector('input#region');
+    inputRegionCode.addEventListener('change', ()=>{
+        let regions = [[${regions}]];
+        let regionSelected = "";
+        console.log(regions)
+        for(let i = 0;i<regions.length;i++){
+            if(regions[i].code == inputRegionCode.value){
+                regionSelected = regions[i].nom;
+                break;
+            }
+        }
+        if(regionSelected){
+            inputRegion.value = regionSelected;
+        }
     })
 
 </script>

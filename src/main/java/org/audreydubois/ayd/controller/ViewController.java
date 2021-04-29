@@ -1,6 +1,7 @@
 package org.audreydubois.ayd.controller;
 
 import org.audreydubois.ayd.dto.ItemDTO;
+import org.audreydubois.ayd.dto.RegionDTO;
 import org.audreydubois.ayd.entity.Item;
 import org.audreydubois.ayd.exception.ItemNotFoundException;
 import org.audreydubois.ayd.service.ItemService;
@@ -22,12 +23,14 @@ public class ViewController {
 
     @GetMapping(path = "/index")
     public String index( Model model){
+        model.addAttribute("regions", itemService.findAllRegions());
         model.addAttribute("items", itemService.getAll().getBody());
         model.addAttribute("item", new ItemDTO());
         return "index";
     }
     @GetMapping(path = "/index/{id}")
     public String viewItem( Model model, @PathVariable Long id){
+        model.addAttribute("regions", itemService.findAllRegions());
         model.addAttribute("item", itemService.get(id).getBody());
         return "view";
     }
