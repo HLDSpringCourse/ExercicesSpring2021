@@ -1,6 +1,7 @@
 package org.pyl.pylspring.controller;
 
 import lombok.extern.slf4j.Slf4j;
+import org.pyl.pylspring.Client.GeoApiClient;
 import org.pyl.pylspring.dto.ItemDTO;
 import org.pyl.pylspring.exception.APIException;
 import org.pyl.pylspring.service.ItemService;
@@ -17,15 +18,19 @@ import java.util.List;
 public class ViewController {
 
     private final ItemService itemService;
+    private final GeoApiClient geoApiClient;
 
-    public ViewController(ItemService itemService) {
+    public ViewController(ItemService itemService, GeoApiClient geoApiClient) {
+
         this.itemService = itemService;
+        this.geoApiClient = geoApiClient;
     }
 
     @GetMapping("/itemsview")
     public String getView(Model model) {
         model.addAttribute("items", itemService.getAll());
         model.addAttribute("itemDTO", new ItemDTO());
+        model.addAttribute("regionCodeList", geoApiClient.getAllRegions());
         return "view";
     }
 
@@ -41,7 +46,7 @@ public class ViewController {
             try {
                 itemService.create(itemDTO);
             } catch (APIException e) {
-                log.error(e.toString());
+                return "/error";
             }
 
             return "redirect:/itemsview";

@@ -28,7 +28,6 @@ public class ItemService {
     }
 
     public List<ItemDTO> getAll() {
-
         return itemDAO.findAll().stream().map(this::entityToDto).collect(Collectors.toList());
     }
 

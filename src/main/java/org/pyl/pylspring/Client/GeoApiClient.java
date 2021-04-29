@@ -9,6 +9,7 @@ import org.pyl.pylspring.dto.RegionDTO;
 import org.springframework.stereotype.Service;
 import util.Constants;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -20,7 +21,15 @@ public class GeoApiClient {
 
 
     public List<RegionDTO> getAllRegions() {
-        return Arrays.asList(Objects.requireNonNull(restTemplate.getForObject(Constants.API_GOV_BASE_URL + Constants.API_GOV_REGIONS_URL, RegionDTO[].class)));
+        List<RegionDTO> regionDTOList = new ArrayList<>();
+
+        RegionDTO[] regionDTOArr = restTemplate.getForObject(Constants.API_GOV_BASE_URL + Constants.API_GOV_REGIONS_URL, RegionDTO[].class);
+
+        if(regionDTOArr != null) {
+            regionDTOList = Arrays.asList(regionDTOArr);
+        }
+
+        return regionDTOList;
     }
 
     public String getRegion(String code) throws APIException {

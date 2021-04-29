@@ -22,7 +22,10 @@
     </label>
     <label>
         Code Region :
-        <input type="text" th:field="*{regionCode}" />
+        <input list="regionCodeList" id="regionCodeInput" type="text" th:field="*{regionCode}" />
+        <datalist id="regionCodeList">
+            <option th:each="regionCode: ${regionCodeList}" th:value="${regionCode.code}" th:text="${regionCode.code+' -> '+regionCode.nom}"></option>
+        </datalist>
     </label>
     <input type="submit" value="Ajouter" />
 </form>
