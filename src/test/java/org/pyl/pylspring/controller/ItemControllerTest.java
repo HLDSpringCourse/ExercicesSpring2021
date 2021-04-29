@@ -1,24 +1,21 @@
 package org.pyl.pylspring.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.pyl.pylspring.PylspringApplication;
-
-import static org.hamcrest.Matchers.*;
-
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.pyl.pylspring.dto.ItemDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+
+import static org.hamcrest.Matchers.is;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -29,10 +26,11 @@ public class ItemControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
+    // todo: enleve order
     @Test
     @Order(1)
     public void getItemsTest() throws Exception {
-        this.mockMvc.perform(get("/items")
+        mockMvc.perform(get("/items")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content()
@@ -43,7 +41,7 @@ public class ItemControllerTest {
     @Test
     @Order(2)
     public void getItemTotoTest() throws Exception {
-        this.mockMvc.perform(get("/items/2")
+        mockMvc.perform(get("/items/2")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content()
@@ -55,7 +53,7 @@ public class ItemControllerTest {
     @Test
     @Order(3)
     public void createPloufItemTest() throws Exception {
-        this.mockMvc.perform(post("/items")
+        mockMvc.perform(post("/items")
                 .content(asJsonString(new ItemDTO(0L, "plouf", "44", "")))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -69,7 +67,7 @@ public class ItemControllerTest {
     @Test
     @Order(4)
     public void updateTitiItemTest() throws Exception {
-        this.mockMvc.perform(put("/items")
+        mockMvc.perform(put("/items")
                 .content(asJsonString(new ItemDTO(2L, "plop", "44", "")))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -83,15 +81,13 @@ public class ItemControllerTest {
     @Test
     @Order(5)
     public void deleteItemId2Test() throws Exception {
-        this.mockMvc.perform(delete("/items/2")
-                .contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(delete("/items/2"))
                 .andExpect(status().isOk())
                 .andExpect(content()
                         .contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$", is(2)));
 
-        this.mockMvc.perform(get("/items/2")
-                .contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(get("/items/2"))
                 .andExpect(status().is4xxClientError());
     }
 

@@ -37,7 +37,7 @@
         </a>
         <p th:text='${"Region : "+item.regionName}'></p>
         <p th:text='${"Code Region : "+item.regionCode}'></p>
-        <form action="#" th:action="@{'/deleteitem/{id}'(id=${item.id})}" th:method="delete" >
+        <form action="#" th:action="@{'/deleteitem/{id}'(id=${item.id})}" th:method="delete">
             <button type="submit" id="Supprimer">Supprimer</button>
         </form>
     </li>
