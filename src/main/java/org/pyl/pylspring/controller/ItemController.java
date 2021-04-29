@@ -11,6 +11,7 @@ import org.pyl.pylspring.exception.APIException;
 import org.pyl.pylspring.service.ItemService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import util.ErrorMessage;
 
 import java.util.List;
 
@@ -80,18 +81,11 @@ public class ItemController {
         return itemService.delete(id);
     }
 
-
+    // todo: deplaçable dans un fichier ?
     @ExceptionHandler({APIException.class})
     public ResponseEntity<ErrorMessage> handleAPIException(APIException e) {
         return new ResponseEntity<>(new ErrorMessage(e.getMessage()), e.getHttpStatus());
     }
 
-    public class ErrorMessage {
-        public String message;
-
-        public ErrorMessage(String message) {
-            this.message = message;
-        }
-    }
 
 }
