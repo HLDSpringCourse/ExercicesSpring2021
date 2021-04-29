@@ -15,9 +15,9 @@ public class H2DBConfig {
     CommandLineRunner initDatabase(ItemDAO itemDAO){
 
         return args -> {
-            itemDAO.save(new Item(1L, "toto", "52", "Pays de la Loire"));
-            itemDAO.save(new Item(2L, "titi", "01", "Guadeloupe"));
-            itemDAO.save(new Item(3L, "tutu", "28", "Normandie"));
+            itemDAO.save(new Item( "toto", "52", "Pays de la Loire"));
+            itemDAO.save(new Item( "titi", "01", "Guadeloupe"));
+            itemDAO.save(new Item( "tutu", "28", "Normandie"));
         };
     }
 }

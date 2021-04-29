@@ -2,6 +2,7 @@ package org.pyl.pylspring.service;
 
 import org.apache.commons.lang3.StringUtils;
 import org.pyl.pylspring.Client.GeoApiClient;
+import org.pyl.pylspring.dao.ItemDAO;
 import org.pyl.pylspring.dto.ItemDTO;
 import org.pyl.pylspring.entity.Item;
 import org.pyl.pylspring.exception.APIException;
@@ -9,33 +10,26 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import util.Constants;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 public class ItemService {
 
-    private static long currentId = 3L;
-
     private final GeoApiClient geoApiClient;
 
-    private final List<Item> itemList = new ArrayList<>();
+    private final ItemDAO itemDAO;
 
-
-    public ItemService(GeoApiClient geoApiClient) {
+    public ItemService(GeoApiClient geoApiClient, ItemDAO itemDAO) {
         super();
 
         this.geoApiClient = geoApiClient;
-
-        itemList.add(new Item(1L, "toto", "52", "Pays de la Loire"));
-        itemList.add(new Item(2L, "titi", "01", "Guadeloupe"));
-        itemList.add(new Item(3L, "tutu", "28", "Normandie"));
+        this.itemDAO = itemDAO;
     }
 
     public List<ItemDTO> getAll() {
 
-        return itemList.stream().map(this::entityToDto).collect(Collectors.toList());
+        return itemDAO.findAll().stream().map(this::entityToDto).collect(Collectors.toList());
     }
 
     public ItemDTO get(String id) throws APIException {
@@ -49,10 +43,10 @@ public class ItemService {
 
         itemDTO.setRegionName(geoApiClient.getRegion(itemDTO.getRegionCode()));
 
-        final Item item = dtoToEntity(itemDTO);
-        currentId++;
-        item.setId(currentId);
-        itemList.add(item);
+        final Item item = dtoToEntityNoId(itemDTO);
+
+        itemDAO.save(item);
+
         return entityToDto(item);
     }
 
@@ -64,14 +58,13 @@ public class ItemService {
 
         final long itemId = itemDTO.getId();
 
-        final Item item = itemList.stream().filter(aItem -> aItem.getId() == itemId).findFirst().orElseThrow(
-                () -> new APIException(Constants.MESSAGE_NOT_FOUND, HttpStatus.NOT_FOUND)
-        );
+        itemDAO.findById(itemId).orElseThrow(
+                    () -> new APIException(Constants.MESSAGE_NOT_FOUND, HttpStatus.NOT_FOUND)
+                );
 
-        int itemIndex = itemList.indexOf(item);
+        Item item = itemDAO.save(dtoToEntity(itemDTO));
 
-        itemList.set(itemIndex, dtoToEntity(itemDTO));
-        return entityToDto(itemList.get(itemIndex));
+        return entityToDto(item);
     }
 
 
@@ -79,7 +72,7 @@ public class ItemService {
 
         final Item item = getItem(id);
 
-        itemList.remove(item);
+        itemDAO.delete(item);
 
         return item.getId();
     }
@@ -92,6 +85,9 @@ public class ItemService {
         return new Item(itemDTO.getId(), itemDTO.getName(), itemDTO.getRegionCode(), itemDTO.getRegionName());
     }
 
+    private Item dtoToEntityNoId(ItemDTO itemDTO) {
+        return new Item(itemDTO.getName(), itemDTO.getRegionCode(), itemDTO.getRegionName());
+    }
 
     private boolean isItemDTOValid(ItemDTO itemDTO) {
         return itemDTO != null
@@ -111,8 +107,6 @@ public class ItemService {
             throw new APIException(Constants.MESSAGE_BAD_ITEM, HttpStatus.BAD_REQUEST);
         }
 
-        return itemList.stream().filter(aItem -> aItem.getId() == itemId).findFirst().orElseThrow(
-                () -> new APIException(Constants.MESSAGE_NOT_FOUND, HttpStatus.NOT_FOUND)
-        );
+        return itemDAO.findById(itemId).orElseThrow(() -> new APIException(Constants.MESSAGE_NOT_FOUND, HttpStatus.NOT_FOUND));
     }
 }
