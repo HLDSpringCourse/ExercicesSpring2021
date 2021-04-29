@@ -6,17 +6,21 @@
     <link rel="stylesheet" type="text/css" th:href="@{/style/style.css}"/>
 </head>
 <body>
-    <div th:if="${item != null}">
-        <p>Id : <span th:utext="${item.id}"></span></p>
-        <p>Nom : <span th:utext="${item.name}"></span></p>
-        <p>Code : <span th:utext="${item.regionCode}"></span></p>
-        <p>Région : <span th:utext="${item.region}"></span></p>
+    <a th:href="@{/index}"><button>Retour à la liste</button></a>
+    <h1>Item</h1>
+    <div class="card" th:if="${item != null}">
+        <p>Id : </p> <p th:utext="${item.id}"></p>
+        <p>Nom : </p> <p th:utext="${item.name}"></p>
+        <p>Code : </p> <p th:utext="${item.regionCode}"></p>
+        <p>Région : </p> <p th:utext="${item.region}"></p>
+        <button id="modif">Modifier</button>
     </div>
-    <button id="modif">Modifier</button>
-    <form style="display:none;" action="#" th:action="@{/patch/{id}(id=${item.id})}" th:object="${item}" th:method="patch">
-        <input id="name" type="text" placeholder="Nom de l'item" th:field="*{name}"/>
-        <input id="regionCode" type="text" placeholder="Code régional" th:field="*{regionCode}"/>
-        <input id="region" type="text" placeholder="Région" th:field="*{region}"/>
+    <br/>
+    <form class="card" style="display:none;" action="#" th:action="@{/patch/{id}(id=${item.id})}" th:object="${item}" th:method="patch">
+        <h2>Modification</h2>
+        <label for="idItem">Id : </label><input id="idItem" type="text" placeholder="Nom de l'item" th:field="*{name}"/>
+        <label for="regionCode">Nom : </label> <input id="regionCode" type="text" placeholder="Code régional" th:field="*{regionCode}"/>
+        <label for="region">Code : </label> <input id="region" type="text" placeholder="Région" th:field="*{region}"/>
         <input type="submit" value="Modifier"/>
     </form>
 </body>
@@ -24,7 +28,7 @@
     let modifForm = document.querySelector('#modif');
     modifForm.addEventListener('click', ()=>{
         let formPatch = document.querySelector('form');
-        formPatch.style.display = "block";
+        formPatch.style.display = "grid";
         modifForm.style.display = "none";
     })
 
