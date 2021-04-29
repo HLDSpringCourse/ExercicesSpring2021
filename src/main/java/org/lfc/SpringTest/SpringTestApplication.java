@@ -6,11 +6,13 @@ import org.springframework.context.annotation.ComponentScan;
 
 import controller.GeoController;
 import controller.ItemController;
+import controller.ViewController;
 
 @SpringBootApplication
 @ComponentScan("org.lfc.configuration")
 @ComponentScan(basePackageClasses = ItemController.class)
 @ComponentScan(basePackageClasses = GeoController.class)
+@ComponentScan(basePackageClasses = ViewController.class)
 @ComponentScan(basePackageClasses = org.lfc.service.ItemService.class)
 public class SpringTestApplication {
 
