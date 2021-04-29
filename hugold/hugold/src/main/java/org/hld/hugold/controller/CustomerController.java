@@ -1,6 +1,7 @@
 package org.hld.hugold.controller;
 
 
+import org.hld.hugold.dto.CustomerDto;
 import org.hld.hugold.entity.CustomerEntity;
 import org.hld.hugold.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,14 +20,17 @@ public class CustomerController {
 
     /***
      * GET
-     * @return
      */
 
     //Get All items
     @GetMapping
-    public List<CustomerEntity> all(){
-        return customerService.getAllCustomers();
+    public List<CustomerDto> getAllCustomers(@RequestParam(name = "name",required = false) String name){
+        return name == null ? customerService.getAllCustomerDto() :  null;
     }
+//    public List<CustomerEntity> all(){
+//        return customerService.getAllCustomers();
+//    }
+
 
 
     //Get Single item
@@ -43,7 +47,7 @@ public class CustomerController {
      */
     //Add item
     @PostMapping
-    public CustomerEntity addCustomer(@RequestBody String customer){
+    public CustomerDto addCustomer(@RequestBody CustomerDto customer){
         return customerService.addCustomer(customer);
 
     }

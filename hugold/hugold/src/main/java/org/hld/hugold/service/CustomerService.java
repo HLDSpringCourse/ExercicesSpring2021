@@ -1,13 +1,17 @@
 package org.hld.hugold.service;
 
 import org.hld.hugold.controller.CustomerNotFoundException;
+import org.hld.hugold.dao.CustomerRepository;
+import org.hld.hugold.dto.CustomerDto;
 import org.hld.hugold.entity.CustomerEntity;
+import org.springframework.beans.InvalidPropertyException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CustomerService {
@@ -16,6 +20,8 @@ public class CustomerService {
     @Autowired
     private GeoApiClient geoApiClient;
 
+    @Autowired
+    private CustomerRepository repository;
     //Data container
     private List<CustomerEntity> customers = new ArrayList<>();
 
@@ -25,6 +31,9 @@ public class CustomerService {
         return customers;
     }
 
+    public List<CustomerDto> getAllCustomerDto(){
+        return repository.findAll().stream().map(this::getDtoFromEntity).collect(Collectors.toList());
+    }
 
 
     //Get specific data using ID
@@ -37,11 +46,16 @@ public class CustomerService {
 
 
     //Add new Customer
-    public CustomerEntity addCustomer(String name){
-        final CustomerEntity customer = new CustomerEntity(name, zipcode);
-        customers.add(customer);
+    public CustomerDto addCustomer(CustomerDto customer){
+        if(customer.getZipcode() == null){
+            throw new CustomerNotFoundException("Customer can't be found, zip code ain't provided");
 
-        return customer;
+        }else {
+            final CustomerEntity newCustomer = new CustomerEntity(customer.getName(), customer.getZipcode());
+            newCustomer.setCity(geoApiClient.findCity(newCustomer.getZipCode()));
+            return  getDtoFromEntity(repository.save(newCustomer));
+        }
+
     }
 
 
@@ -76,6 +90,16 @@ public class CustomerService {
         return removedItem;
 
 
+    }
+
+    //Converter
+    private CustomerDto getDtoFromEntity(CustomerEntity customer) {
+        return CustomerDto.builder()
+                .id(customer.getId())
+                .name(customer.getName())
+                .zipcode(customer.getZipCode())
+                .city(customer.getCity())
+                .build();
     }
 
 
