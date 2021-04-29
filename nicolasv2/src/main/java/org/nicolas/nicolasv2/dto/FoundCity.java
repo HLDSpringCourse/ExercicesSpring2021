@@ -12,4 +12,6 @@ import lombok.NoArgsConstructor;
 public class FoundCity {
 
     private String nom;
+
+    private String codeDepartement;
 }

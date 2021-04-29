@@ -30,15 +30,23 @@ public class UserService {
     }*/
 
     public User addUser(User user) {
+
+        if(users.size() > 0) {
+            user.setId(users.get(users.size() - 1).getId() + 1);
+        } else {
+            user.setId(1);
+        }
+
         user.setCity(findCity(user.getZipCode()));
+        user.setDepartmentCode((findDept(user.getZipCode())));
         users.add(user);
         return user;
     }
 
 
-    public long deleteUser(String id) {
-        final long found = users.stream().filter(s -> Objects.equals(s.getId(), id)).count();
-        users.removeIf(s -> Objects.equals(s.getId(), id));
+    public long deleteUser(int id) {
+        final long found = users.stream().filter(user -> user.getId() == id).count();
+        users.removeIf( user -> user.getId() == id);
         return found;
     }
 
@@ -68,13 +76,28 @@ public class UserService {
 
     private String findCity(String zipCode) {
         return restTemplate.exchange(
-                "https://geo.api.gouv.fr/communes?codePostal=" + zipCode + "&fields=nom&format=json&geometry=centre",
+                "https://geo.api.gouv.fr/communes?codePostal=" + zipCode + "&fields=nom,codeDepartement&format=json&geometry=centre",
                 HttpMethod.GET, null, new ParameterizedTypeReference<List<FoundCity>>() {
                 })
                 .getBody()
                 .stream()
                 .findFirst()
                 .map(FoundCity::getNom)
+                //.map(FoundCity::getDepartmentCode)
+                .orElseThrow(() -> new NotFoundException(
+                        "code " + zipCode + " non valide"));
+    }
+
+    private String findDept(String zipCode) {
+        return restTemplate.exchange(
+                "https://geo.api.gouv.fr/communes?codePostal=" + zipCode + "&fields=nom,codeDepartement&format=json&geometry=centre",
+                HttpMethod.GET, null, new ParameterizedTypeReference<List<FoundCity>>() {
+                })
+                .getBody()
+                .stream()
+                .findFirst()
+                //.map(FoundCity::getNom)
+                .map(FoundCity::getCodeDepartement)
                 .orElseThrow(() -> new NotFoundException(
                         "code " + zipCode + " non valide"));
     }
@@ -86,6 +109,7 @@ public class UserService {
                 foundUser.setName(user.getName());
                 foundUser.setZipCode(user.getZipCode());
                 foundUser.setCity(findCity(user.getZipCode()));
+                foundUser.setDepartmentCode(findDept(user.getDepartmentCode()));
                 users.add(foundUser);
                 return foundUser;
         }).orElseThrow(() -> new NotFoundException("L'objet n'existe pas"));

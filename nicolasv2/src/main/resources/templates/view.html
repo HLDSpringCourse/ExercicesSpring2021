@@ -4,6 +4,7 @@
 <form>
     <input id="name" type="text" placeholder="Nom"/>
     <input id="zipCode" type="text" placeholder="Code Postal"/>
+    <input type="button" value="Ajouter" onclick="sendUserAndRefresh()"/>
 </form>
 <hr/>
 <table th:if="${!users.isEmpty()}">
@@ -11,6 +12,7 @@
         <th>Nom</th>
         <th>Ville</th>
         <th>Code postal</th>
+        <th>Dept</th>
         <th></th>
     </tr>
     <tr th:each ="user : ${users}">
@@ -18,13 +20,14 @@
         <td th:utext="${user.name}"></td>
         <td th:utext="${user.city}"></td>
         <td th:utext="${user.zipCode}"></td>
+        <td th:utext="${user.departmentCode}"></td>
         <td><button class="color:red;" th:onclick="deleteUserAndRefresh([[${user.id}]])">X</button></td>
     </tr>
 </table>
 </html>
 <script>
-  function sendSujetAndRefresh() {
-    fetch("/sujet", {
+  function sendUserAndRefresh() {
+    fetch("/user", {
         method: "POST",
         headers: {
             'Accept': 'application/json',
@@ -37,8 +40,8 @@
     }).then(() => document.location.reload()).catch((error) => console.log(error))
 	}
 
-	function deleteSujetAndRefresh(id) {
-		fetch("/sujet/" + id, {
+	function deleteUserAndRefresh(id) {
+		fetch("/user/" + id, {
 			method: "DELETE",
 			headers: {
 				'Accept': 'application/json',
@@ -56,3 +59,4 @@
 		border-collapse: collapse;
 	}
    </style>
+</html>
