@@ -21,9 +21,10 @@ public class CustomerEntity {
     @Column(name ="city")
     private String city;
 
-    public CustomerEntity(String name, String zipcode) {
+    public CustomerEntity(String name, String zipcode ) {
         this.name = name;
         this.zipcode = zipcode;
+        this.city = city;
     }
 
     // GETTERS
