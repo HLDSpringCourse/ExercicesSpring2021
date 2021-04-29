@@ -36,6 +36,11 @@ public class ViewController {
         service.addCustomer(customer);
         return "redirect:/view";
     }
+    @PutMapping(path = "{id}")
+    public String edit(@PathVariable int id, @ModelAttribute Customer customer) {
+        service.editCustomer(id,customer);
+        return "redirect:/view/"+id;
+    }
 
     @GetMapping("{id}")
     public String show(@PathVariable("id") int id, Model model){

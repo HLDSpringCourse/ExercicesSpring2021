@@ -1,49 +1,48 @@
 package com.alik.alik.service;
 
 import com.alik.alik.BadRequestException;
+import com.alik.alik.dao.CustomerRepository;
 import com.alik.alik.entity.City;
 import com.alik.alik.entity.Customer;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import com.alik.alik.NotFoundException;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Service
 public class CustomerService {
-    private List<Customer> customers = new ArrayList<>();
+
+    @Autowired
+    private CustomerRepository customerRepository;
 
     public List<Customer> getCustomers(){
-        return customers;
+        return customerRepository.findAll();
     }
 
     public Customer getCustomerById(int id) throws NotFoundException{
-        return customers.stream().filter(order -> order.getId() == id).findFirst().orElseThrow(
-                ()->new NotFoundException("ce client n'exist pas")
-        );
+        return customerRepository.findById(id).orElseThrow(()->new NotFoundException("ce client n'exist pas"));
     }
 
-    public Customer getCustomerByName(String name){
+    /*public Customer getCustomerByName(String name){
         return customers.stream().filter(order -> order.getName().equals(name)).findFirst().orElse(null);
-    }
+    }*/
 
     public Customer addCustomer(Customer customer){
         if(customer.getName() == null || customer.getName().isEmpty() ){
             throw new BadRequestException("Input values can't be empty");
         };
-        Customer newCustomer = new Customer(customers.size()+1, customer.getName());
+        Customer newCustomer = new Customer(customer.getName());
         //get city name from external api
         City[] cities = getCityByZipcode(customer.getZipCode());
         if(cities.length > 0){
             newCustomer.setCity(cities[0].getName());
         }
         newCustomer.setZipCode(customer.getZipCode());
-        customers.add(newCustomer);
+        customerRepository.save(newCustomer);
         return newCustomer;
 
     }
@@ -52,7 +51,7 @@ public class CustomerService {
         if(customer.getName() == null || customer.getName().isEmpty()){
             throw new BadRequestException("Input values can't be empty");
         };
-        Customer modifiedCustomer = getCustomerById(id);
+        Customer modifiedCustomer = customerRepository.findById(id).orElseThrow(()->new NotFoundException("ce client n'exist pas"));
         modifiedCustomer.setName(customer.getName());
         modifiedCustomer.setZipCode(customer.getZipCode());
 
@@ -61,12 +60,13 @@ public class CustomerService {
         if(cities.length > 0){
             modifiedCustomer.setCity(cities[0].getName());
         }
+        customerRepository.save(modifiedCustomer);
         return modifiedCustomer;
     }
 
     public ResponseEntity<String> deleteCustomer(int id){
         Customer customer = getCustomerById(id);
-        customers.remove(customer);
+        customerRepository.delete(customer);
         return ResponseEntity.status(HttpStatus.OK).body("Le client ("+customer.getName()+") a bien été supprimré");
     }
 

@@ -11,5 +11,10 @@
         <li><b>Name: </b><span th:utext="${customer.name}"></span></li>
         <li><b>City: </b><span th:utext="${customer.city}"></span></li>
     </ul>
+    <form action="#" th:action="@{/view/{id}(id=${customer.id})}" th:method="put" th:object="${customer}">
+        <input id="name" type="text" placeholder="Nom" th:field="*{name}"/>
+        <input id="zipCode" type="text" placeholder="Code Postal" th:field="*{zipCode}"/>
+        <input type="submit" value="modifier" />
+    </form>
     <a th:href="@{/view}">Customers</a>
 </body>
