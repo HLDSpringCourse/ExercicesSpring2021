@@ -1,7 +1,9 @@
 package org.nicolas.nicolasv2.entity;
 
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.util.Objects;
 
@@ -9,11 +11,19 @@ import java.util.Objects;
 public class User {
 
     @Id
+    @GeneratedValue
     private int id;
 
+    @Column
     private String name;
+
+    @Column
     private String zipCode;
+
+    @Column
     private String city;
+
+    @Column
     private String departmentCode;
 
 
@@ -24,7 +34,6 @@ public class User {
     public void setDepartmentCode(String departmentCode) {
         this.departmentCode = departmentCode;
     }
-
 
 
     public String getZipCode() {
@@ -42,13 +51,6 @@ public class User {
     public void setCity(String city) {
         this.city = city;
     }
-
-
- /*   public User(String name, String zipCode, String city) {
-        this.name = name;
-        this.zipCode = zipCode;
-        this.city = city;
-    }*/
 
     public User() {
         this.name = name;

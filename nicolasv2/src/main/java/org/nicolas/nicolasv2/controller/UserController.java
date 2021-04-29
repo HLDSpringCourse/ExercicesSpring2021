@@ -29,7 +29,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public User getUser(@PathVariable("id") String id) throws NotFoundException {
+    public User getUser(@PathVariable("id") int id) throws NotFoundException {
         return userService.getUser(id);
     }
 
@@ -37,6 +37,8 @@ public class UserController {
     public List<User> getUsers() {
         return userService.getUsers();
     }
+
+
 
     @PutMapping
     public User updateUser(@RequestBody User user) throws NotFoundException {

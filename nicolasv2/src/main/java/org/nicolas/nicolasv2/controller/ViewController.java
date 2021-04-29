@@ -22,7 +22,7 @@ public class ViewController {
     }
 
     @GetMapping("/view/{id}")
-    public String viewById(@PathVariable String id, Model model) {
+    public String viewById(@PathVariable int id, Model model) {
         model.addAttribute("user", UserService.getUser(id));
         return "view-id";
     }
