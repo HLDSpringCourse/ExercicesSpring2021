@@ -39,10 +39,10 @@ public class UserControllerTest {
 	public void addUser() throws Exception{
 		
 		int userID=5;
-		MvcResult result = mvc.perform(MockMvcRequestBuilders.post("/user").contentType(MediaType.APPLICATION_JSON)
-				.content(objectMapper.writeValueAsString(new User(userID, "Gonzag",45)))).andDo(MockMvcResultHandlers.print()).andReturn();
+//		MvcResult result = mvc.perform(MockMvcRequestBuilders.post("/user").contentType(MediaType.APPLICATION_JSON)
+//				.content(objectMapper.writeValueAsString(new User(userID, "Gonzag",45)))).andDo(MockMvcResultHandlers.print()).andReturn();
 		
-		MockHttpServletResponse response = result.getResponse();
+//		MockHttpServletResponse response = result.getResponse();
 	}
 	
 }

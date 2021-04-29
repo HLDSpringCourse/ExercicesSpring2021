@@ -1,63 +1,41 @@
 package org.hld.hugold.entity;
 
-import org.hld.hugold.service.GeoApi;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.client.RestTemplate;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@Entity
+@Table(name = "us")
+@NoArgsConstructor
 public class User {
 	
-	private int id;
+	@Id
+	@GeneratedValue
+	private Integer id;
+	
+	@Column
 	private String name;
+	
+	@Column
 	private int departementCode;
+	
+	@Column
 	private String departement;
 	
-	
-	public int getDepartementCode() {
-		return departementCode;
-	}
 
 
-	public void setDepartementCode(int departementCode) {
-		this.departementCode = departementCode;
-	}
 
-
-	public int getId() {
-		return id;
-	}
-
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-
-	public String getName() {
-		return name;
-	}
-
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public User(int id, String name, int departementCode) {
+	public User( String name, int departementCode) {
 		super();
-		this.id = id;
 		this.name = name;
 		this.departementCode = departementCode;
 	}
-	
-	public String getDepartement() {
-		return departement;
-	}
-	
-	public void setDepartement(String departement) {
-		this.departement = departement;
-	}
+
 
 }

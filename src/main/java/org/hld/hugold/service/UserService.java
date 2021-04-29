@@ -3,7 +3,9 @@ package org.hld.hugold.service;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
+import org.hld.hugold.dao.UserRepository;
 import org.hld.hugold.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,18 +15,21 @@ public class UserService {
 	
 	@Autowired
 	private GeoApi service;
+	@Autowired
+	private UserRepository userRepo;
 	
 	private  List<User> liste = new ArrayList<User>();
 
 
 	public User addUser(User user) {
 		user.setDepartement(service.findDepartement(user.getDepartementCode()));
-		liste.add(user);
+		userRepo.save(user);
+	//	liste.add(user);
 		return user;
 	}
 	
 	public User deleteUser(int id) {
-		int i;
+	/*	int i;
 		User userListe=null;
 		for (i = 0; i < liste.size(); i++) {
 			userListe=liste.get(i);
@@ -33,18 +38,21 @@ public class UserService {
 			}
 		}
 		liste.remove(i);
-		return userListe;
+		*/
+		User user = userRepo.findById(id).get();
+		userRepo.deleteById(id);
+		return user;
 	}
 	
-	public User getUser(int id) {
-		User userListe=null;
+	public Optional<User> getUser(int id) {
+	/*	User userListe=null;
 		for (int i = 0; i < liste.size(); i++) {
 			userListe = liste.get(i);
 			if(id==userListe.getId()){
 				return userListe;
 			}
-		}
-		return null;
+		} */
+		return userRepo.findById(id);
 	}
 	public User updateUser(User user) {
 		int id = user.getId();
@@ -57,6 +65,6 @@ public class UserService {
 		return user;
 	}
 	public List<User> getAll(){
-		return liste;
+		return userRepo.findAll();
 	}
 }
