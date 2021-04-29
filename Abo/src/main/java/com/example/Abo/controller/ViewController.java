@@ -1,4 +1,4 @@
-package controller;
+package com.example.Abo.controller;
 
 import org.springframework.stereotype.Controller;
 

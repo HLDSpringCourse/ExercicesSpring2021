@@ -1,4 +1,4 @@
-package controller;
+package com.example.Abo.controller;
 
 import java.lang.reflect.Array;
 import java.net.URI;
@@ -14,24 +14,25 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.Abo.entity.User;
+import com.example.Abo.service.userService;
 
-import entity.User;
-import service.userService;
+import javassist.NotFoundException;
 
 @RestController
 @RequestMapping("/user")
 public class userController {
 	@Autowired
-	
+	private userService service;
 
 	@GetMapping("/list")
-	public User getUser(){
-		return new User("1", "Abo");
+	public List<User> getUser(){
+		return service.getUser();
 	}
 
 	@PostMapping
-	public ResponseEntity<User> createUser(@RequestBody User user) throws URISyntaxException{
-		return ResponseEntity.status(HttpStatus.CREATED).body(user);
+	public User addUser(@RequestBody User user) throws NotFoundException{
+		return service.addUser(user);
 	}
 	
 	
