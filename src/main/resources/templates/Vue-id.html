@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns: th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1"/>
+<title>Gestion des utilisateur</title>
+</head>
+<body>
+<table>
+		<tr>
+			<th>Nom</th>
+			<th>Code du departement</th>
+			<th>Departement</th>
+		</tr>
+		<form>
+		<tr >
+			<td ><input type="text" th:utext="${user.name}"/>  </td>
+			<td ><input type="text" th:utext="${user.departementCode}"/></td>
+			<td ><input type="text" th:utext="${user.departement}"/></td>
+		</tr>
+		</form>
+</table>
+
+</body>
+</html>
