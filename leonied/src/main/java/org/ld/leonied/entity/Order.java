@@ -1,11 +1,27 @@
 package org.ld.leonied.entity;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "MyOrder")
 public class Order {
-    private int id;
+
+    @Id
+    @GeneratedValue
+    @Column(name = "Id", nullable = false)
+    private Long id;
+
+    @Column(name = "Name", nullable = false)
     private String name;
+
+    @Column(name = "City", nullable = true)
     private String city;
-    private int lattitude = 9999;
-    private int longitude = 9999;
+
+    @Column(name = "Lattitude", nullable = true)
+    private Integer lattitude = null;
+
+    @Column(name = "Longitude", nullable = true)
+    private Integer longitude = null;
 
     public Order() {}
 
@@ -24,11 +40,11 @@ public class Order {
         this.longitude = longitude;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -48,19 +64,19 @@ public class Order {
         this.city = city;
     }
 
-    public int getLattitude() {
+    public Integer getLattitude() {
         return lattitude;
     }
 
-    public void setLattitude(int lattitude) {
+    public void setLattitude(Integer lattitude) {
         this.lattitude = lattitude;
     }
 
-    public int getLongitude() {
+    public Integer getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(int longitude) {
+    public void setLongitude(Integer longitude) {
         this.longitude = longitude;
     }
 }

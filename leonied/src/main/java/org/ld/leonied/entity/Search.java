@@ -11,8 +11,8 @@ public class Search {
     // optional
     private final String name;
     private final String cityName;
-    private final int cityLat;
-    private final int cityLong;
+    private final Integer cityLat;
+    private final Integer cityLong;
 
     private Search(SearchBuilder builder) {
         name = builder.name;
@@ -40,11 +40,11 @@ public class Search {
     }
 
     public Predicate<Order> predicateCityLat() {
-        return order -> cityLat == 9999 || order.getLattitude() == cityLat;
+        return order -> cityLat == null || order.getLattitude() == cityLat;
     }
 
     public Predicate<Order> predicateCityLong() {
-        return order -> cityLong == 9999 || order.getLattitude() == cityLong;
+        return order -> cityLong == null || order.getLattitude() == cityLong;
     }
 
     // Builder Class
@@ -52,15 +52,15 @@ public class Search {
         // optional
         private String name;
         private String cityName;
-        private int cityLat;
-        private int cityLong;
+        private Integer cityLat;
+        private Integer cityLong;
 
 
         public SearchBuilder() {
             name = "";
             cityName = "";
-            cityLat = 9999; // non existing lattitude
-            cityLong = 9999; // non existing longitude
+            cityLat = null;
+            cityLong = null;
         }
 
         /**
@@ -85,7 +85,7 @@ public class Search {
          * @param cityLat
          * @return lui-même
          */
-        public SearchBuilder cityLat(int cityLat) {
+        public SearchBuilder cityLat(Integer cityLat) {
             this.cityLat = cityLat;
             return this;
         }
@@ -94,7 +94,7 @@ public class Search {
          * @param cityLong
          * @return lui-même
          */
-        public SearchBuilder cityLong(int cityLong) {
+        public SearchBuilder cityLong(Integer cityLong) {
             this.cityLong = cityLong;
             return this;
         }

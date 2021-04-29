@@ -26,8 +26,8 @@
             <td style="display:none;" th:utext="${order.id}"></td>
             <td><a th:href="@{/show/{id}(id=${order.id})}" th:utext="${order.name}"></a></td>
             <td th:utext="${order.city}"></td>
-            <td th:utext="${order.lattitude != 9999} ? ${order.lattitude} : '-'"></td>
-            <td th:utext="${order.longitude != 9999} ? ${order.longitude} : '-'"></td>
+            <td th:utext="${order.lattitude != null} ? ${order.lattitude} : '-'"></td>
+            <td th:utext="${order.longitude != null} ? ${order.longitude} : '-'"></td>
             <td>
                 <form action="#" th:action="@{/delete/{id}(id=${order.id})}" th:method="delete">
                     <input type="hidden" name="_method" value="delete" />

@@ -20,18 +20,18 @@ public class OrderService {
     private RestTemplate restTemplate;
 
     public void addOrder(Order order) {
-        if(orders.size() > 0) {
+        /*if(orders.size() > 0) {
             order.setId(orders.get(orders.size() - 1).getId() + 1);
         } else {
-            order.setId(1);
-        }
+            order.setId(1L);
+        }*/
 
         City[] cities = findCityNames(order.getLattitude(), order.getLongitude());
         if(cities != null) {
             order.setCity(cities[0].getNom());
         } else {
-            order.setLattitude(9999);
-            order.setLongitude(9999);
+            order.setLattitude(null);
+            order.setLongitude(null);
         }
 
         orders.add(order);
@@ -45,7 +45,7 @@ public class OrderService {
         return orders;
     }
 
-    public Order findOrderById(int id) throws NotFoundException {
+    public Order findOrderById(Long id) throws NotFoundException {
         return orders.stream()
                 .filter(order -> order.getId() == id)
                 .findFirst()
@@ -80,10 +80,10 @@ public class OrderService {
 
         // update city by name
         // si lat et/ou lon dispo, priorité pour éviter incohérence
-        if(order.getCity() != null && order.getLattitude() == 9999 && order.getLongitude() == 9999) {
+        if(order.getCity() != null && order.getLattitude() == null && order.getLongitude() == null) {
             originalOrder.setCity(order.getCity());
-            originalOrder.setLattitude(9999);
-            originalOrder.setLongitude(9999);
+            originalOrder.setLattitude(null);
+            originalOrder.setLongitude(null);
         } else { // update city by location
             City[] cities = findCityNames(order.getLattitude(), order.getLongitude());
             if(cities != null && cities.length > 0) {
@@ -92,19 +92,19 @@ public class OrderService {
                 originalOrder.setLongitude(order.getLongitude());
             } else {
                 originalOrder.setCity(null);
-                originalOrder.setLattitude(9999);
-                originalOrder.setLongitude(9999);
+                originalOrder.setLattitude(null);
+                originalOrder.setLongitude(null);
             }
         }
     }
 
-    public City[] findCityNames(int lattitude, int longitude) throws NotFoundException {
+    public City[] findCityNames(Integer lattitude, Integer longitude) throws NotFoundException {
         // find city name according to lattitude/longitude
         String requete = "";
-        if(lattitude != 9999) {
+        if(lattitude != null) {
             requete += "lat=" + lattitude + "&";
         }
-        if(longitude != 9999) {
+        if(longitude != null) {
             requete += "lon=" + longitude + "&";
         }
         if(!requete.equals("")) {

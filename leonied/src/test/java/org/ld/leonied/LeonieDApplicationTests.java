@@ -157,7 +157,7 @@ class LeonieDApplicationTests {
 		orderService.addOrder(new Order("Marcus", "Rouen"));
 		orderService.addOrder(new Order("Arrow", "Rouen"));
 
-		Order order = orderService.findOrderById(2);
+		Order order = orderService.findOrderById(2L);
 		order.setName("Pirate");
 
 		mvc.perform(put("/orders")
