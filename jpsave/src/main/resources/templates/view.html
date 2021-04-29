@@ -1,0 +1,58 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Orders</title>
+</head>
+<body>
+    <header th:insert="fragments.html :: header (title = 'Orders Management')"></header>
+    <h2>Add new Order</h2>
+    <form action="#" th:action="@{/view}" th:method="post" th:object="${orderRequest}">
+        <input type="text" placeholder="Order Name" th:field="*{name}"/>
+        <input type="number" step="0.00001" placeholder="Order Lattitude" th:field="*{lat}"/>
+        <input type="number" step="0.00001" placeholder="Order Longitude" th:field="*{lon}"/>
+        <input type="submit" name="create" value="Create"/>
+    </form>
+    <div th:if="${!orders.isEmpty()}">
+        <hr/>
+        <h2>Orders List</h2>
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>City</th>
+                <th> </th>
+            </tr>
+            <tr th:each ="order : ${orders}">
+                <form action="#" th:action="@{/view/delete/{id}(id=${order.id})}" th:method="post">
+                    <td><a th:href="@{/view/{id}(id=${order.id})}" th:utext="${order.name}"></a></td>
+                    <td th:utext="${order.city}"></td>
+                    <td><input type="submit" name="suppress" th:id="${order.id}" value="Suppress"/></td>
+                </form>
+            </tr>
+        </table>
+    </div>
+    <footer th:insert="fragments.html :: footer"> </footer>
+</body>
+
+<style>
+    table {
+border: medium solid #6495ed;
+border-collapse: collapse;
+width: 50%;
+}
+th {
+border: thin solid #6495ed;
+width: 50%;
+padding: 5px;
+background-color: #D0E3FA;
+}
+td {
+border: thin solid #6495ed;
+width: 50%;
+padding: 5px;
+text-align: center;
+background-color: #ffffff;
+}
+</style>
+
+</html>
