@@ -1,0 +1,24 @@
+<html xmlns:th="http://www.thymeleaf.org">
+   <h1>Liste des sujets en base</h1>
+   <table th:if="${!users.isEmpty()}">
+      <tr>
+         <th>Nom</th>
+         <th>Ville</th>
+         <th>Code postal</th>
+      </tr>
+      <tr th:each ="user : ${users}">
+         <td style="display:none;" th:utext="${user.id}"></td>
+         <td th:utext="${user.id}"></td>
+         <td th:utext="${user.name}"></td>
+         <td th:utext="${user.departementCode}"></td>
+      </tr>
+   </table>
+   <style>
+     table, th, td {
+		border: 1px solid black;
+	}
+	table{
+		border-collapse: collapse;
+	}
+   </style>
+</html>

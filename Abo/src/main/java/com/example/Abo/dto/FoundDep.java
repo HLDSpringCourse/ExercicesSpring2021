@@ -1,4 +1,4 @@
-package dto;
+package com.example.Abo.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class FoundCity {
+public class FoundDep {
 
     private String nom;
 

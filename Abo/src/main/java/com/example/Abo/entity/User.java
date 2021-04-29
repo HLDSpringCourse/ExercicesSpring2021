@@ -8,11 +8,12 @@ public class User {
 	private String departement;
 	private String departementCode;
 	
-	public User(String id, String name, String departement) {
+	public User(String id, String name, String departement, String departementCode) {
 		super();
 		this.id = id;
 		this.setName(name);
 		this.setDepartement(departement);
+		this.setDepartementCode(departementCode);
 	}
 
 	public String getId() {
