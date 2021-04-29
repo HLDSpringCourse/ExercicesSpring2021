@@ -1,6 +1,7 @@
 package org.pyl.pylspring.service;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.util.Strings;
 import org.pyl.pylspring.Client.GeoApiClient;
@@ -17,6 +18,7 @@ import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
+@Slf4j
 public class ItemService {
 
     private final GeoApiClient geoApiClient;
@@ -25,6 +27,14 @@ public class ItemService {
 
 
     public List<ItemDTO> getAll() {
+// pour tester les requetes customs
+//        List<Item> itemList = itemDAO.getItemNameByPrefix("to");
+//        log.error("### test @Query itemList.size -> " + itemList.size());
+//        itemList.forEach(item -> log.error("### test @Query -> " + item.getName()));
+//
+//        Optional<Item> itemOptional = itemDAO.findFirstByRegionNameContaining("de");
+//        log.error("### test PSQL -> " + (itemOptional.isEmpty() ? null : itemOptional.get().getRegionName()));
+
         return itemDAO.findAll().stream().map(this::entityToDto).collect(Collectors.toList());
     }
 
@@ -33,7 +43,7 @@ public class ItemService {
     }
 
     public ItemDTO create(ItemDTO itemDTO) throws APIException {
-        if(!isItemDTOValid(itemDTO)) throw new APIException(Constants.MESSAGE_BAD_ITEM, HttpStatus.BAD_REQUEST);
+        if (!isItemDTOValid(itemDTO)) throw new APIException(Constants.MESSAGE_BAD_ITEM, HttpStatus.BAD_REQUEST);
 
         itemDTO.setRegionCode(StringUtils.leftPad(itemDTO.getRegionCode(), 2, "0"));
 
@@ -48,15 +58,15 @@ public class ItemService {
 
     public ItemDTO update(ItemDTO itemDTO) throws APIException {
 
-        if(!isItemDTOValid(itemDTO)) throw new APIException(Constants.MESSAGE_BAD_ITEM, HttpStatus.BAD_REQUEST);
+        if (!isItemDTOValid(itemDTO)) throw new APIException(Constants.MESSAGE_BAD_ITEM, HttpStatus.BAD_REQUEST);
 
         itemDTO.setRegionName(geoApiClient.getRegion(itemDTO.getRegionCode()));
 
         final long itemId = itemDTO.getId();
 
         itemDAO.findById(itemId).orElseThrow(
-                    () -> new APIException(Constants.MESSAGE_NOT_FOUND, HttpStatus.NOT_FOUND)
-                );
+                () -> new APIException(Constants.MESSAGE_NOT_FOUND, HttpStatus.NOT_FOUND)
+        );
 
         Item item = itemDAO.save(dtoToEntity(itemDTO));
 
@@ -97,7 +107,7 @@ public class ItemService {
         try {
             itemId = Long.parseLong(id);
 
-        } catch(NumberFormatException e) {
+        } catch (NumberFormatException e) {
             throw new APIException(Constants.MESSAGE_BAD_ITEM, HttpStatus.BAD_REQUEST);
         }
 

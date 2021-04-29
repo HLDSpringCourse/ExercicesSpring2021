@@ -19,12 +19,12 @@
       th:method="put">
     <label>
         Nom :
-        <input type="text" th:field="*{name}" th:value="${item.name}"/>
+        <input type="text" th:field="*{name}" th:value="${item.name}" pattern="\w+.*"/>
     </label>
     <label>
         Code Region :
         <input list="regionCodeList" id="regionCodeInput" type="text" th:field="*{regionCode}"
-               th:value="${item.regionCode}"/>
+               th:value="${item.regionCode}" pattern="\d{2}"/>
         <datalist id="regionCodeList">
             <option th:each="regionCode: ${regionCodeList}" th:value="${regionCode.code}"
                     th:text="${regionCode.code+' -> '+regionCode.nom}"></option>

@@ -1,6 +1,9 @@
 package org.pyl.pylspring.dto;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.io.Serializable;
 
@@ -23,3 +26,4 @@ public class ItemDTO implements Serializable {
         this.regionCode = regionCode;
     }
 }
+ 

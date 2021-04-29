@@ -21,7 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @Slf4j
-public class ItemControllerTest {
+class ItemControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -29,9 +29,8 @@ public class ItemControllerTest {
     // todo: enleve order
     @Test
     @Order(1)
-    public void getItemsTest() throws Exception {
-        mockMvc.perform(get("/items")
-                .contentType(MediaType.APPLICATION_JSON))
+    void getItemsTest() throws Exception {
+        mockMvc.perform(get("/items"))
                 .andExpect(status().isOk())
                 .andExpect(content()
                         .contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
@@ -40,9 +39,8 @@ public class ItemControllerTest {
 
     @Test
     @Order(2)
-    public void getItemTotoTest() throws Exception {
-        mockMvc.perform(get("/items/2")
-                .contentType(MediaType.APPLICATION_JSON))
+    void getItemTotoTest() throws Exception {
+        mockMvc.perform(get("/items/2"))
                 .andExpect(status().isOk())
                 .andExpect(content()
                         .contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
@@ -52,11 +50,13 @@ public class ItemControllerTest {
 
     @Test
     @Order(3)
-    public void createPloufItemTest() throws Exception {
+    void createPloufItemTest() throws Exception {
         mockMvc.perform(post("/items")
-                .content(asJsonString(new ItemDTO(0L, "plouf", "44", "")))
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(
+                        new ItemDTO("plouf", "44"))
+                ))
+                .andExpect(status().isCreated())
                 .andExpect(content()
                         .contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.name", is("plouf")))
@@ -66,10 +66,12 @@ public class ItemControllerTest {
 
     @Test
     @Order(4)
-    public void updateTitiItemTest() throws Exception {
+    void updateTitiItemTest() throws Exception {
         mockMvc.perform(put("/items")
-                .content(asJsonString(new ItemDTO(2L, "plop", "44", "")))
-                .contentType(MediaType.APPLICATION_JSON))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(
+                        new ItemDTO(2L, "plop", "44", ""))
+                ))
                 .andExpect(status().isOk())
                 .andExpect(content()
                         .contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
@@ -80,7 +82,7 @@ public class ItemControllerTest {
 
     @Test
     @Order(5)
-    public void deleteItemId2Test() throws Exception {
+    void deleteItemId2Test() throws Exception {
         mockMvc.perform(delete("/items/2"))
                 .andExpect(status().isOk())
                 .andExpect(content()
@@ -92,7 +94,7 @@ public class ItemControllerTest {
     }
 
 
-    public static String asJsonString(final Object obj) {
+    private static String asJsonString(final Object obj) {
         try {
             return new ObjectMapper().writeValueAsString(obj);
         } catch (Exception e) {
