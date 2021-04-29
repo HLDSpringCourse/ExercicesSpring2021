@@ -54,15 +54,21 @@ public class UserService {
 
 
 
-    public long deleteUser(int id) {
+/*    public long deleteUser(int id) {
         final long found = users.stream().filter(user -> user.getId() == id).count();
         users.removeIf( user -> user.getId() == id);
         return found;
-    }
-
-/*    public long deleteUser(int id) {
-        //a faire
     }*/
+
+    public long deleteUser(int id) {
+        if (userRepo.findById(id).isPresent()) {
+            userRepo.deleteById(id);
+            return id;
+        }else {
+            return id;
+        }
+
+    }
 
 
 /*    public User getUser(int id) throws NotFoundException {
