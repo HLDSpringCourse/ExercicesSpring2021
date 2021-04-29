@@ -1,7 +1,7 @@
 package org.ld.leonied.service;
 
 import org.ld.leonied.NotFoundException;
-import org.ld.leonied.configuration.RestTemplateConfig;
+import org.ld.leonied.dao.OrderRepository;
 import org.ld.leonied.entity.City;
 import org.ld.leonied.entity.Order;
 import org.ld.leonied.entity.Search;
@@ -10,22 +10,18 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class OrderService {
-    private List<Order> orders = new ArrayList<>();
     @Autowired
     private RestTemplate restTemplate;
 
-    public void addOrder(Order order) {
-        /*if(orders.size() > 0) {
-            order.setId(orders.get(orders.size() - 1).getId() + 1);
-        } else {
-            order.setId(1L);
-        }*/
+    @Autowired
+    private OrderRepository orderRepository;
 
+    public void addOrder(Order order) {
         City[] cities = findCityNames(order.getLattitude(), order.getLongitude());
         if(cities != null) {
             order.setCity(cities[0].getNom());
@@ -34,22 +30,24 @@ public class OrderService {
             order.setLongitude(null);
         }
 
-        orders.add(order);
+        orderRepository.save(order);
     }
 
     public void removeOrder(Order order) {
-        orders.remove(order);
+        orderRepository.delete(order);
     }
 
     public List<Order> getOrders() {
-        return orders;
+        return orderRepository.findAll();
     }
 
     public Order findOrderById(Long id) throws NotFoundException {
-        return orders.stream()
-                .filter(order -> order.getId() == id)
-                .findFirst()
-                .orElseThrow(() -> new NotFoundException("La commande d'id " + id + " n'a pas été trouvée"));
+        Optional<Order> order = orderRepository.findById(id);
+        if(order.isEmpty()) {
+            throw new NotFoundException("La commande d'id " + id + " n'a pas été trouvée");
+        } else {
+            return order.get();
+        }
     }
 
     public List<Order> findOrdersByParam(String name, String cityName, Integer cityLat, Integer cityLong) {
@@ -66,7 +64,7 @@ public class OrderService {
         if(cityLong != null) {
             searchBuilder.cityLong(cityLong);
         }
-        return searchBuilder.build().result(orders);
+        return searchBuilder.build().result(orderRepository.findAll());
     }
 
 
