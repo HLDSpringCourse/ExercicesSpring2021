@@ -37,6 +37,7 @@ public class ViewController {
     @GetMapping("/itemsview/{id}")
     public String getViewById(@PathVariable("id") String id, Model model) throws APIException {
         model.addAttribute("item", itemService.get(id));
+        model.addAttribute("regionCodeList", geoApiClient.getAllRegions());
         return "view-by-id";
     }
 
