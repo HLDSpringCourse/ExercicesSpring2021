@@ -16,13 +16,11 @@
         <input id="longitude" type="number" placeholder="Longitude" th:field="*{longitude}" th:value="${order.longitude}"/>
         <button type="submit" class="color:red;">Modifier la commande</button>
     </form>
-    <!--
-    <ul>
-        <li><b>Nom : </b><span th:utext="${order.name}"></span></li>
-        <li><b>Ville : </b><span th:utext="${order.city}"></span></li>
-        <li><b>Coordonées GPS : </b><span th:utext="(${order.lattitude != null} ? ${order.lattitude} + '°' : '?') + ' - ' + (${order.longitude != null} ? ${order.longitude} + '°' : '?')"></span></li>
+
+    <ul th:each ="item : ${order.items}">
+        <li><b>Nom : </b><span th:utext="${item.name}"></span></li>
     </ul>
-    -->
+
     <form action="#" th:action="@{/delete/{id}(id=${order.id})}" th:method="delete">
         <input type="hidden" name="_method" value="delete" />
         <button type="submit" class="color:red;">Supprimer la commande</button>

@@ -1,6 +1,10 @@
 package org.ld.leonied.entity;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 @Entity
 @Table(name = "MyOrder")
@@ -22,6 +26,9 @@ public class Order {
 
     @Column(name = "Longitude", nullable = true)
     private Integer longitude = null;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Item> items = new ArrayList<>();
 
     public Order() {}
 
@@ -78,5 +85,17 @@ public class Order {
 
     public void setLongitude(Integer longitude) {
         this.longitude = longitude;
+    }
+
+    public List<Item> getItems() {
+        return items;
+    }
+
+    public void setItems(List<Item> items) {
+        this.items = items;
+    }
+
+    public void addItem(Item item) {
+        this.items.add(item);
     }
 }
