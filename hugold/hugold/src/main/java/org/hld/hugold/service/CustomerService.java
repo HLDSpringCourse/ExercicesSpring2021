@@ -4,7 +4,6 @@ import org.hld.hugold.controller.CustomerNotFoundException;
 import org.hld.hugold.dao.CustomerRepository;
 import org.hld.hugold.dto.CustomerDto;
 import org.hld.hugold.entity.CustomerEntity;
-import org.springframework.beans.InvalidPropertyException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,13 +22,13 @@ public class CustomerService {
     @Autowired
     private CustomerRepository repository;
     //Data container
-    private List<CustomerEntity> customers = new ArrayList<>();
+    private final List<CustomerEntity> customers = new ArrayList<>();
 
 
     //Get all data
-    public List<CustomerEntity> getAllCustomers(){
-        return customers;
-    }
+//    public List<CustomerEntity> getAllCustomers(){
+//        return customers;
+//    }
 
     public List<CustomerDto> getAllCustomerDto(){
         return repository.findAll().stream().map(this::getDtoFromEntity).collect(Collectors.toList());
@@ -52,7 +51,7 @@ public class CustomerService {
 
         }else {
             final CustomerEntity newCustomer = new CustomerEntity(customer.getName(), customer.getZipcode());
-            newCustomer.setCity(geoApiClient.findCity(newCustomer.getZipCode()));
+            newCustomer.setCity(geoApiClient.findCity(newCustomer.getZipcode()));
             return  getDtoFromEntity(repository.save(newCustomer));
         }
 
@@ -97,7 +96,7 @@ public class CustomerService {
         return CustomerDto.builder()
                 .id(customer.getId())
                 .name(customer.getName())
-                .zipcode(customer.getZipCode())
+                .zipcode(customer.getZipcode())
                 .city(customer.getCity())
                 .build();
     }

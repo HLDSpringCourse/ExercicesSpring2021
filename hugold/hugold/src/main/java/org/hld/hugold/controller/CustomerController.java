@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
+//import java.util.concurrent.atomic.AtomicLong;
 
 @RestController
 @RequestMapping("customers")
@@ -16,7 +16,7 @@ public class CustomerController {
 
     @Autowired
     private CustomerService customerService;
-    private final AtomicLong counter = new AtomicLong();
+//    private final AtomicLong counter = new AtomicLong();
 
     /***
      * GET

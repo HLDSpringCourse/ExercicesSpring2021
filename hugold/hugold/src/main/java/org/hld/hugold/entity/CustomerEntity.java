@@ -1,16 +1,29 @@
 package org.hld.hugold.entity;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.util.UUID;
 
+@Data
+@NoArgsConstructor
+@Entity(name = "Customer")
 public class CustomerEntity {
+    @Id
     private String id = UUID.randomUUID().toString();
+    @Column(name = "name")
     private String name;
-    private String zipCode;
+    @Column(name = "zipcode")
+    private String zipcode;
+    @Column(name ="city")
     private String city;
 
-    public CustomerEntity(String name, String zipCode) {
+    public CustomerEntity(String name, String zipcode) {
         this.name = name;
-        this.zipCode = zipCode;
+        this.zipcode = zipcode;
     }
 
     // GETTERS
@@ -22,8 +35,8 @@ public class CustomerEntity {
     public String getName() {
         return name;
     }
-    public String getZipCode() {
-        return zipCode;
+    public String getZipcode() {
+        return zipcode;
     }
 
     public String getCity() {
@@ -34,8 +47,8 @@ public class CustomerEntity {
     public void setName(String name) {
         this.name = name;
     }
-    public void setZipCode(String zipCode) {
-        this.zipCode = zipCode;
+    public void setZipcode(String zipCode) {
+        this.zipcode = zipCode;
     }
     public void setCity(String city) {
         this.city = city;
