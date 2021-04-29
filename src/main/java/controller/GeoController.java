@@ -17,8 +17,8 @@ public class GeoController {
 	@Autowired
 	GeoService geoService;
 
-	@GetMapping(path = "/get/byzipcode/{zipcode}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<GeoDto> getItem(@PathVariable int zipcode) {
-		return ResponseEntity.status(HttpStatus.OK).body(geoService.foundCity(zipcode));
+	@GetMapping(path = "/get/code/{code}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<GeoDto> getItem(@PathVariable int code) {
+		return ResponseEntity.status(HttpStatus.OK).body(geoService.foundCity(code));
     }
 }

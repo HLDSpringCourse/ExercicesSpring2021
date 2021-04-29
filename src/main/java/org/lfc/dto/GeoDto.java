@@ -11,7 +11,7 @@ public class GeoDto implements Serializable {
 	
 	private long id;
 
-	private int zipcode;
+	// private int zipcode;
 
-	private String name;
+	private String nom;
 }

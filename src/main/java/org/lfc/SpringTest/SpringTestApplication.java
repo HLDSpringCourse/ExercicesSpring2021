@@ -8,6 +8,7 @@ import controller.GeoController;
 import controller.ItemController;
 
 @SpringBootApplication
+@ComponentScan("org.lfc.configuration")
 @ComponentScan(basePackageClasses = ItemController.class)
 @ComponentScan(basePackageClasses = GeoController.class)
 @ComponentScan(basePackageClasses = org.lfc.service.ItemService.class)
