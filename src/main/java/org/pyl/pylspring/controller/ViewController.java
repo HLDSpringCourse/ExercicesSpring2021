@@ -1,5 +1,6 @@
 package org.pyl.pylspring.controller;
 
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.pyl.pylspring.Client.GeoApiClient;
 import org.pyl.pylspring.dto.ItemDTO;
@@ -15,16 +16,11 @@ import java.util.List;
 
 @Controller
 @Slf4j
+@AllArgsConstructor
 public class ViewController {
 
     private final ItemService itemService;
     private final GeoApiClient geoApiClient;
-
-    public ViewController(ItemService itemService, GeoApiClient geoApiClient) {
-
-        this.itemService = itemService;
-        this.geoApiClient = geoApiClient;
-    }
 
     @GetMapping("/itemsview")
     public String getView(Model model) {

@@ -1,8 +1,6 @@
 package org.pyl.pylspring.entity;
 
-import lombok.Generated;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,6 +10,8 @@ import javax.persistence.Id;
 @Entity
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Item {
 
     @GeneratedValue
@@ -26,17 +26,6 @@ public class Item {
 
     @Column
     private String regionName;
-
-    public Item() {
-        super();
-    }
-
-    public Item(Long id, String name, String regionCode, String regionName) {
-        this.id = id;
-        this.name = name;
-        this.regionCode = regionCode;
-        this.regionName = regionName;
-    }
 
     public Item(String name, String regionCode, String regionName) {
         this.name = name;

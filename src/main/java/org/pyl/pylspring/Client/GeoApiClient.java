@@ -1,5 +1,6 @@
 package org.pyl.pylspring.Client;
 
+import org.apache.logging.log4j.util.Strings;
 import org.pyl.pylspring.exception.APIException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.client.RestClientException;
@@ -34,7 +35,7 @@ public class GeoApiClient {
 
     public String getRegion(String code) throws APIException {
 
-        if(code == null || code.isEmpty()) throw new APIException(Constants.MESSAGE_BAD_ITEM, HttpStatus.BAD_REQUEST);
+        if(Strings.isBlank(code)) throw new APIException(Constants.MESSAGE_BAD_ITEM, HttpStatus.BAD_REQUEST);
 
         RegionDTO regionDTO;
 

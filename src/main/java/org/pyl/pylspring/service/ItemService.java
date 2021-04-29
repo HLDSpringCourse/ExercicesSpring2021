@@ -1,6 +1,8 @@
 package org.pyl.pylspring.service;
 
+import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.logging.log4j.util.Strings;
 import org.pyl.pylspring.Client.GeoApiClient;
 import org.pyl.pylspring.dao.ItemDAO;
 import org.pyl.pylspring.dto.ItemDTO;
@@ -14,18 +16,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@AllArgsConstructor
 public class ItemService {
 
     private final GeoApiClient geoApiClient;
 
     private final ItemDAO itemDAO;
 
-    public ItemService(GeoApiClient geoApiClient, ItemDAO itemDAO) {
-        super();
-
-        this.geoApiClient = geoApiClient;
-        this.itemDAO = itemDAO;
-    }
 
     public List<ItemDTO> getAll() {
         return itemDAO.findAll().stream().map(this::entityToDto).collect(Collectors.toList());
@@ -90,10 +87,8 @@ public class ItemService {
 
     private boolean isItemDTOValid(ItemDTO itemDTO) {
         return itemDTO != null
-                && itemDTO.getName() != null
-                && !itemDTO.getName().isEmpty()
-                && itemDTO.getRegionCode() != null
-                && !itemDTO.getRegionCode().isEmpty();
+                && !Strings.isBlank(itemDTO.getName())
+                && !Strings.isBlank(itemDTO.getRegionCode());
     }
 
     private Item getItem(String id) throws APIException {

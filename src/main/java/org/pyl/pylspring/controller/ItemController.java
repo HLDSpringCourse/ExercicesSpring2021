@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import lombok.AllArgsConstructor;
 import org.pyl.pylspring.dto.ItemDTO;
 import org.pyl.pylspring.exception.APIException;
 import org.pyl.pylspring.service.ItemService;
@@ -16,13 +17,10 @@ import java.util.List;
 @RestController
 @RequestMapping("/items")
 @Api(value="items API", produces = "", consumes="" , tags="Items", protocols="GET, POST, PUT, DELETE")
+@AllArgsConstructor
 public class ItemController {
 
     private final ItemService itemService;
-
-    public ItemController(ItemService itemService) {
-        this.itemService = itemService;
-    }
 
     @ApiOperation(value = "Voir la liste de toutes les items", response = ItemDTO[].class)
     @ApiResponses(value = {
@@ -71,7 +69,7 @@ public class ItemController {
         return itemService.update(itemDTO);
     }
 
-    @ApiOperation(value = "Supprimer une item", response = Integer.class)
+    @ApiOperation(value = "Supprimer une item", response = Long.class)
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Item bien supprimée"),
             @ApiResponse(responseCode = "400", description = "Requete erronée"),
