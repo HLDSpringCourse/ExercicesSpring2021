@@ -10,9 +10,7 @@ import java.util.List;
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Long> {
 
-    public List<Order> findByNameLike(String name);
-
-    public List<Order> findByCityLike(String city);
+    public List<Order> findByName(String name);
 
     @Query("SELECT o FROM Order o WHERE o.lattitude BETWEEN :lat1 AND :lat2 ORDER BY o.city ASC")
     public List<Order> findBetweenTwoLattitudes(Integer lat1, Integer lat2);

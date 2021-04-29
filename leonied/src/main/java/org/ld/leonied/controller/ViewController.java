@@ -11,8 +11,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @Controller
 public class ViewController {
     private final OrderService orderService;
@@ -25,6 +23,7 @@ public class ViewController {
     public String index(Model model) {
         model.addAttribute("orders", orderService.getOrders());
         model.addAttribute("order", new Order());
+        model.addAttribute("recherche", new Order());
         return "index";
     }
 
@@ -34,10 +33,28 @@ public class ViewController {
         return "show";
     }
 
-    @PostMapping(path ="/create", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    public String create(Order order) {
+    @PostMapping(path ="/create")
+    public String create(@ModelAttribute Order order) {
         orderService.addOrder(order);
         return "redirect:/index";
+    }
+
+    @PostMapping(path ="/search1")
+    public String search1(@ModelAttribute Order recherche, Model model) {
+        model.addAttribute("orders", orderService.findOrderByName(recherche.getName()));
+        return "resultats";
+    }
+
+    @PostMapping(path ="/search2")
+    public String search2(@ModelAttribute Order recherche, Model model) {
+        model.addAttribute("orders", orderService.findOrdersByParam(recherche.getName(), recherche.getCity(), recherche.getLattitude(), recherche.getLongitude()));
+        return "resultats";
+    }
+
+    @PostMapping(path ="/search3")
+    public String search3(@ModelAttribute Order recherche, Model model) {
+        model.addAttribute("orders", orderService.findOrderBetweenLattitudes(recherche.getLattitude(), recherche.getLongitude()));
+        return "resultats";
     }
 
     @DeleteMapping(path = "/delete/{id}")

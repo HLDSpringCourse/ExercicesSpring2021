@@ -7,6 +7,29 @@
 <body>
     <header th:insert="general.html :: header (title = 'Liste des commandes')"></header>
     <hr/>
+    <h2>Recherche par nom (utilisation du findByName du repository)</h2>
+    <form action="#" th:action="@{/search1}" th:method="post" th:object="${recherche}">
+        <input id="recherche_name" type="text" placeholder="Rechercher le nom de la commande" th:field="*{name}"/>
+        <input type="submit" value="Rechercher"/>
+    </form>
+    <hr/>
+    <h2>Recherche par critères (utilisation du SearchBuilder)</h2>
+    <form action="#" th:action="@{/search2}" th:method="post" th:object="${recherche}">
+        <input id="search_name" type="text" placeholder="Nom" th:field="*{name}"/>
+        <input id="search_city" type="text" placeholder="Ville" th:field="*{city}"/>
+        <input id="search_lat" type="number" placeholder="Lattitude" th:field="*{lattitude}"/>
+        <input id="search_long" type="number" placeholder="Longitude" th:field="*{longitude}"/>
+        <input type="submit" value="Rechercher"/>
+    </form>
+    <hr/>
+    <h2>Recherche par nom (utilisation du findBetweenLattitudes du repository)</h2>
+    <form action="#" th:action="@{/search3}" th:method="post" th:object="${recherche}">
+        <input id="search_lattitude1" type="number" placeholder="Lattitude Min" th:field="*{lattitude}"/>
+        <input id="search_lattitude2" type="number" placeholder="Lattitude Max" th:field="*{longitude}"/>
+        <input type="submit" value="Rechercher"/>
+    </form>
+    <hr/>
+    <h2>Ajouter une commande</h2>
     <form action="#" th:action="@{/create}" th:method="post" th:object="${order}">
         <input id="name" type="text" placeholder="Nom de la commande" th:field="*{name}"/>
         <input id="lattitude" type="number" placeholder="Lattitude" th:field="*{lattitude}"/>
@@ -14,6 +37,7 @@
         <input type="submit" value="Ajouter"/>
     </form>
     <hr/>
+    <h2>Toutes les commandes</h2>
     <table th:if="${!orders.isEmpty()}">
         <tr>
             <th>Nom</th>

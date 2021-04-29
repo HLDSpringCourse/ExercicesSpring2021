@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Résultat de votre recherche</title>
+</head>
+<body>
+    <header th:insert="general.html :: header (title = 'Résultat de votre recherche')"></header>
+    <hr/>
+    <table th:if="${!orders.isEmpty()}">
+        <tr>
+            <th>Nom</th>
+            <th>Ville</th>
+            <th>Lattitude</th>
+            <th>Longitude</th>
+        </tr>
+        <tr th:each ="order : ${orders}">
+            <td style="display:none;" th:utext="${order.id}"></td>
+            <td><a th:href="@{/show/{id}(id=${order.id})}" th:utext="${order.name}"></a></td>
+            <td th:utext="${order.city}"></td>
+            <td th:utext="${order.lattitude != null} ? ${order.lattitude} : '-'"></td>
+            <td th:utext="${order.longitude != null} ? ${order.longitude} : '-'"></td>
+        </tr>
+    </table>
+    <hr/>
+    <div>
+        <a th:href="@{/index}">Retour à la liste des commandes</a>
+    </div>
+    <footer th:insert="general.html :: footer"> </footer>
+</body>
+</html>

@@ -50,6 +50,14 @@ public class OrderService {
         }
     }
 
+    public List<Order> findOrderByName(String name) throws NotFoundException {
+        return orderRepository.findByName(name);
+    }
+
+    public List<Order> findOrderBetweenLattitudes(Integer lat1, Integer lat2) {
+        return orderRepository.findBetweenTwoLattitudes(lat1, lat2);
+    }
+
     public List<Order> findOrdersByParam(String name, String cityName, Integer cityLat, Integer cityLong) {
         Search.SearchBuilder searchBuilder = new Search.SearchBuilder();
         if(name != null) {
