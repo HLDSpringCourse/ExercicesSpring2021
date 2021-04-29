@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>one item</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/style/style.css}"/>
 </head>
 <body>
     <div th:if="${item != null}">
@@ -11,5 +12,21 @@
         <p>Code : <span th:utext="${item.regionCode}"></span></p>
         <p>Région : <span th:utext="${item.region}"></span></p>
     </div>
+    <button id="modif">Modifier</button>
+    <form style="display:none;" action="#" th:action="@{/patch/{id}(id=${item.id})}" th:object="${item}" th:method="patch">
+        <input id="name" type="text" placeholder="Nom de l'item" th:field="*{name}"/>
+        <input id="regionCode" type="text" placeholder="Code régional" th:field="*{regionCode}"/>
+        <input id="region" type="text" placeholder="Région" th:field="*{region}"/>
+        <input type="submit" value="Modifier"/>
+    </form>
 </body>
+<script>
+    let modifForm = document.querySelector('#modif');
+    modifForm.addEventListener('click', ()=>{
+        let formPatch = document.querySelector('form');
+        formPatch.style.display = "block";
+        modifForm.style.display = "none";
+    })
+
+</script>
 </html>

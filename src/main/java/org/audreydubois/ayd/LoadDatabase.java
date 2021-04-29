@@ -1,5 +1,6 @@
 package org.audreydubois.ayd;
 
+import lombok.extern.slf4j.Slf4j;
 import org.audreydubois.ayd.entity.Item;
 import org.audreydubois.ayd.dao.ItemRepository;
 import org.slf4j.Logger;

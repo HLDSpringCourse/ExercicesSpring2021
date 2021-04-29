@@ -66,7 +66,25 @@ public class ItemService {
         }
         return ResponseEntity.status(HttpStatus.OK).body((Item)newItemSave.get());
     }
-
+    public ResponseEntity<Item> patchItem(Item newItem, Long id) throws ItemNotFoundException{
+        if(newItem == null){
+            throw new ItemNotFoundException(id);
+        }
+        Optional<Object> newItemSave =  itemRepository.findById(id).map(
+                item -> {
+                    item.setName(newItem.getName());
+                    item.setRegionCode(newItem.getRegionCode());
+                    item.setRegion(newItem.getRegion());
+                    return itemRepository.save(item);
+                }
+        );
+        if(newItemSave.isEmpty()){
+            Item newI = new Item(newItem.getName(), newItem.getRegionCode(), newItem.getRegion());
+            Item itemSave = itemRepository.save(newI);
+            return ResponseEntity.status(HttpStatus.OK).body(itemSave);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body((Item)newItemSave.get());
+    }
 
 
     public String findRegion(String regionCode){
