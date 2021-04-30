@@ -65,7 +65,7 @@ public class UserService {
             userRepo.deleteById(id);
             return id;
         }else {
-            return id;
+            return 0;
         }
 
     }
