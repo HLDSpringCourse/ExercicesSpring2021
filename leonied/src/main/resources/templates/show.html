@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:utext="'Commande n° ' + ${order.id}"></title>
+</head>
+<body>
+    <header th:insert="general.html :: header (title = 'Commande n° ' + ${order.id})"> </header>
+    <hr/>
+    <form action="#" th:action="@{/update}" th:method="put" th:object="${order}">
+        <input type="hidden" name="_method" value="put"/>
+        <input id="id" type="hidden" th:field="*{id}" th:value="${order.id}"/>
+        <input id="name" type="text" placeholder="Nom de la commande" th:field="*{name}" th:value="${order.name}"/>
+        <input id="city" type="text" placeholder="Ville" th:field="*{city}" th:value="${order.city}"/>
+        <input id="lattitude" type="number" placeholder="Lattitude" th:field="*{lattitude}" th:value="${order.lattitude}"/>
+        <input id="longitude" type="number" placeholder="Longitude" th:field="*{longitude}" th:value="${order.longitude}"/>
+        <button type="submit" class="color:red;">Modifier la commande</button>
+    </form>
+
+    <ul th:each ="item : ${order.items}">
+        <li><b>Nom : </b><span th:utext="${item.name}"></span></li>
+    </ul>
+
+    <form action="#" th:action="@{/delete/{id}(id=${order.id})}" th:method="delete">
+        <input type="hidden" name="_method" value="delete" />
+        <button type="submit" class="color:red;">Supprimer la commande</button>
+    </form>
+    <div>
+        <a th:href="@{/index}">Retour à la liste des commandes</a>
+    </div>
+    <footer th:insert="general.html :: footer"> </footer>
+</body>
+</html>
