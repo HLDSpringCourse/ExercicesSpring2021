@@ -30,10 +30,6 @@ public class userController {
 		return service.addUser(user);
 	}
 	
-	@GetMapping
-    public List<User> getUsers() {
-        return service.getUser();
-    }
 	
 
 }
